@@ -2,7 +2,7 @@
 
 ## How to deploy the project
 
-###Step 1: Building the working framework
+##Step 1: Building the working framework
 
 #### Windows:
 Install package manager:
@@ -42,7 +42,7 @@ In the terminal:
 brew install git
 ```
 
-###Step 3: Building project dependencies 
+##Step 3: Building project dependencies 
 (All of these are commands in the terminal / cmd)
 
 We are using a front-end javascript framework called [Vue.js](https://vuejs.org/).
@@ -55,9 +55,20 @@ Installing Vue.js
 npm install -g vue-cli
 ```
 
-###Step 4: Downloading project files (git & github)
+##Step 4: Downloading project files (git & github)
 
-###Step 5: Installing dependency files
+Create the project folder in which it will be located
+
+``` bash
+# download the project
+$ git clone https://github.com/sergormo/OnCollaboration
+
+# go into de project
+$ git clone https://github.com/sergormo/OnCollaboration
+```
+
+
+##Step 5: Installing dependency files
 
 ``` bash
 # install dependencies
