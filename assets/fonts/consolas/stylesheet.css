@@ -1,0 +1,60 @@
+@font-face {
+    font-family: 'Consolas';
+    src: url('Consolas.eot');
+    src: url('Consolas.eot?#iefix') format('embedded-opentype'),
+        url('Consolas.woff2') format('woff2'),
+        url('Consolas.woff') format('woff'),
+        url('Consolas.ttf') format('truetype'),
+        url('Consolas.svg#Consolas') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Consolas';
+    src: url('Consolas-Italic.eot');
+    src: url('Consolas-Italic.eot?#iefix') format('embedded-opentype'),
+        url('Consolas-Italic.woff2') format('woff2'),
+        url('Consolas-Italic.woff') format('woff'),
+        url('Consolas-Italic.ttf') format('truetype'),
+        url('Consolas-Italic.svg#Consolas-Italic') format('svg');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Consolas';
+    src: url('Consolas-Bold.eot');
+    src: url('Consolas-Bold.eot?#iefix') format('embedded-opentype'),
+        url('Consolas-Bold.woff2') format('woff2'),
+        url('Consolas-Bold.woff') format('woff'),
+        url('Consolas-Bold.ttf') format('truetype'),
+        url('Consolas-Bold.svg#Consolas-Bold') format('svg');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Consolas';
+    src: url('Consolas-Italic_1.eot');
+    src: url('Consolas-Italic_1.eot?#iefix') format('embedded-opentype'),
+        url('Consolas-Italic_1.woff2') format('woff2'),
+        url('Consolas-Italic_1.woff') format('woff'),
+        url('Consolas-Italic_1.ttf') format('truetype'),
+        url('Consolas-Italic_1.svg#Consolas-Italic') format('svg');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Consolas';
+    src: url('Consolas-BoldItalic.eot');
+    src: url('Consolas-BoldItalic.eot?#iefix') format('embedded-opentype'),
+        url('Consolas-BoldItalic.woff2') format('woff2'),
+        url('Consolas-BoldItalic.woff') format('woff'),
+        url('Consolas-BoldItalic.ttf') format('truetype'),
+        url('Consolas-BoldItalic.svg#Consolas-BoldItalic') format('svg');
+    font-weight: bold;
+    font-style: italic;
+}
+
