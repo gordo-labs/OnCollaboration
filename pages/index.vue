@@ -10,21 +10,10 @@
             @click="infoPanel = !infoPanel"
           />
         </section>
-        <section class="on-element" v-show="infoPanel">
-          <p>
-            “ON COLLABORATION” ES UN PROYECTO CULTURAL EN FORMATO DE PROGRAMA
-            RADIOFÓNICO EN TORNO A LA COLABORACIÓN.
-          </p>
-          <p>
-            CINCO ENCUENTROS FÍSICOS, VARIOS TIPOS DE SECCIONES RADIOFÓNICAS,
-            CINCO PODCASTS, UNA RED DE AGENTES Y COMUNIDADES PARTICIPANTES, UNA
-            MIRADA MULTIPLET DESDE MADRID A OTROS ÁMBITOS Y CONDICIONES DEL
-            "HACER JUNTOS", CONFORMAN SUS INGREDIENTES.
-          </p>
-          <p>
-            UN UNIVERSO EXPERIMENTAL DESDE EL QUE APRENDER, ESCUCHANDO Y
-            HACIENDO, QUE SIGNIFICA Y COMO SE PRODUCE HOY LO COLABORATIVO.
-          </p>
+        <section class="on-element" v-show="infoPanel" v-if="intro[0]">
+          <div v-for="cont in intro[0].fields.introContent.content">
+            <p v-if="cont.content[0]">{{ cont.content[0].value }}</p>
+          </div>
         </section>
       </v-content>
 
@@ -61,23 +50,11 @@ export default {
     };
   },
   created() {
-    console.log("ROUTE => ", this.$route.params.slug);
-    // this should not throw TS errors now
-    let post;
-    // post = this.$store.state.posts.find(el => {
-    //   if (el.slug === this.$route.params.slug) {
-    //     this.$store.commit("setPost", el);
-    //     return true;
-    //   }
-    // });
-    if (!post) {
-      // this.$store.dispatch("getEntries", this.$route.params.slug);
-    }
-    console.log("POST => ", this.show);
+    this.$store.dispatch("getEntriesAction", "intro");
   },
   computed: {
-    posts() {
-      return this.$store.state.posts;
+    intro() {
+      return this.$store.state.intro;
     },
     featuredImage() {
       let featuredImage = this.$store.state.post.featureImage;
@@ -100,7 +77,7 @@ export default {
 
 $primary: #4c4885;
 
-.programa{
+.programa {
   margin-top: 120px !important;
 }
 .image-container {
@@ -141,6 +118,7 @@ $primary: #4c4885;
     font-family: "Consolas", Helvetica !important;
     color: #4c4885;
     font-size: 1.5em;
+    margin-bottom: 10px;
     @include media(S) {
       font-size: 1.2em;
     }

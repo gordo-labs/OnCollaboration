@@ -1,6 +1,6 @@
 import VuetifyLoaderPlugin from 'vuetify-loader/lib/plugin'
 import pkg from './package'
-import mainService from "./services/main-service"
+const contentfulConfig = require('./.contentful.json');
 
 export default {
   /*
@@ -84,6 +84,17 @@ export default {
   axios: {
     proxy: false // Can be also an object with default options
   },
+  
+  /*
+  Environment export Contenful
+   */
+  env: {
+    CTF_SPACE_ID: contentfulConfig.CTF_SPACE_ID,
+    CTF_CDA_ACCESS_TOKEN: contentfulConfig.CTF_CDA_ACCESS_TOKEN,
+    CTF_CDA_PREVIEW_ACCESS_TOKEN: contentfulConfig.CTF_CDA_PREVIEW_ACCESS_TOKEN,
+    CTF_PERSON_ID: contentfulConfig.CTF_PERSON_ID,
+    CTF_BLOG_POST_TYPE_ID: contentfulConfig.CTF_BLOG_POST_TYPE_ID
+  },
 
   /*
    ** Nuxt.js modules
@@ -115,28 +126,24 @@ export default {
     extend(config, ctx) {}
   },
   generate: {
-    /*   routes: () =>
-    {
-      let routes = [];
-      Promise.all([
-        mainService.getPosts_Data(), // 0
-        // mainService.getCategories_Data(), // 1
+    routes () {
+      return Promise.all([
+        // get all blog posts
+        cdaClient.getEntries({
+          'content_type': ctfConfig.CTF_BLOG_POST_TYPE_ID
+        }),
+        // get the blog post content type
+        cmaClient.getSpace(ctfConfig.CTF_SPACE_ID)
+          .then(space => space.getContentType(ctfConfig.CTF_BLOG_POST_TYPE_ID))
       ])
-        .then((res) => {
-          console.log(res);
-          res[0].data.map((post) => {
-            routes.push('/' + post.slug);
-          });
-          // res[1].data.map((cat) => {
-          //   routes.push('/category/' + cat.slug);
-          // });
+        .then(([entries, postType]) => {
+          return [
+            // map entries to URLs
+            ...entries.items.map(entry => `/blog/${entry.fields.slug}`),
+            // map all possible tags to URLs
+            ...postType.fields.find(field => field.id === 'tags').items.validations[0].in.map(tag => `/tags/${tag}`)
+          ]
         })
-    }*/
-    /* routes:[
-   '/delfin',
-   '/la-espada',
-   '/canteria',
-   '/52-lados',
- ]*/
+    }
   }
 };

@@ -65,11 +65,6 @@
         ]
       };
     },
-    created() {
-      console.log("blog_created");
-      this.$store.dispatch("getEntriesAction");
-      // this.$store.dispatch("getCategories_A");
-    }
   };
 </script>
 

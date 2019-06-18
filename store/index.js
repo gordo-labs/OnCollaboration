@@ -4,11 +4,8 @@ export const state = () => ({
   pages: [],
   posts: [],
   post:null,
-  categories: [],
-  meta:{
-    title: "On Collaboration.",
-    description: "Revisión Expandida, Aumentada y Literal de la Casa de Campo de Madrid. Propone una serie de eventos que abordan hechos históricos, anécdotas y lugares más o menos conocidos, reconocibles, secretos o fundamentales de un lugar tan icónico como plural"
-  }
+  intro:[],
+  programa: [],
 });
 
 export const mutations = {
@@ -16,9 +13,9 @@ export const mutations = {
     console.log("PAGES_MUTATION => ",payload);
     state.pages = payload;
   },
-  setPosts(state, payload){
-    console.log("POSTS_MUTATION => ",payload);
-    state.posts = payload;
+  setStateDataByType(state, payload){
+    console.log("POSTS_MUTATION => " + payload.postType + " => ",payload.data);
+    state[payload.postType]= payload.data;
   },
   setPost(state, payload){
     console.log("POST_MUTATION => ",payload);
@@ -31,11 +28,14 @@ export const mutations = {
 };
 
 export const actions = {
-  async getEntriesAction ({ commit }) {
+  async getEntriesAction ({ commit }, payload) {
     // const pages = await this.$axios.get('wp/v2/posts');
-    const posts = await mainService.getEntries();
-    console.log('info',posts.items);
-    commit('setPosts', posts.items);
+    const posts = await mainService.getEntriesByType(payload);
+    const data = {
+      postType: payload,
+      data: posts.items
+    };
+    commit('setStateDataByType', data);
   },
   async getPostId_A ({ commit }, payload) {
     // const pages = await this.$axios.get('wp/v2/posts');

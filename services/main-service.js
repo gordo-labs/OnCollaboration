@@ -2,20 +2,9 @@ import {
   HTTP
 } from "./http-common";
 
-const contentful = require('contentful');
+import {createClient} from '~/plugins/contentful.js';
 
-const contentfulConfig = {
-  spaceID: "2u05j96cus0b",
-  //master env
-  accessToken: "BE-PgdzqvA4T_53plwtYWsiZ2kVXkGePhCsRrBiOBBI",
-  accessPreviewToken: "4zQXrC-08kHWF_2-2pFVyRBECZ9yFObiNlgHK09KePo"
-};
-
-const client = contentful.createClient({
-  space: contentfulConfig.spaceID,
-  environment: 'master', // defaults to 'master' if not set
-  accessToken: contentfulConfig.accessToken
-});
+const client = createClient();
 
 export default {
   getData() {
@@ -24,8 +13,11 @@ export default {
   async getPages() {
     // this.$axios.$get(API);
   },
-  getEntries() {
-    return client.getAssets();
+  getEntriesByType(payload) {
+    return client.getEntries({
+      'content_type': payload,
+      order: '-sys.createdAt'
+    });
   },
   getPostId_Data(slug) {
     return HTTP.get(`wp/v2/posts?slug=${slug}&_embed`);
