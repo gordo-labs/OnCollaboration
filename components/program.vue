@@ -14,7 +14,7 @@
       </v-toolbar>
 
       <v-tabs-items v-model="tab">
-        <v-tab-item v-for="item in posts">
+        <v-tab-item v-for="item in posts" :key="item.fields.title">
           <v-card flat color="transparent">
             <v-card-text v-for="cont in item.fields.programa.content">
               <p v-if="cont.content[0]">{{ cont.content[0].value }}</p>
@@ -49,6 +49,7 @@ export default {
   },
   created() {
     this.$store.dispatch("getEntriesAction", "programa");
+
   }
 };
 </script>
