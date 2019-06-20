@@ -20,12 +20,12 @@
       <programa class="programa"></programa>
       <!--PROGRAMA -->
       <v-content class="content pa-3 programa">
-        <section>
+<!--        <section>
           <img
             src="~/assets/images/ON_PROGRAMA_TITLE.svg"
             class="programa-title"
           />
-        </section>
+        </section>-->
       </v-content>
     </v-content>
 

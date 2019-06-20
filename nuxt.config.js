@@ -129,12 +129,12 @@ export default {
     routes () {
       return Promise.all([
         // get all blog posts
-        cdaClient.getEntries({
-          'content_type': ctfConfig.CTF_BLOG_POST_TYPE_ID
+        client.getEntries({
+          'content_type': env.CTF_BLOG_POST_TYPE_ID
         }),
         // get the blog post content type
-        cmaClient.getSpace(ctfConfig.CTF_SPACE_ID)
-          .then(space => space.getContentType(ctfConfig.CTF_BLOG_POST_TYPE_ID))
+        client.getSpace(env.CTF_SPACE_ID)
+          .then(space => space.getContentType(env.CTF_BLOG_POST_TYPE_ID))
       ])
         .then(([entries, postType]) => {
           return [

@@ -3,7 +3,6 @@
     <v-toolbar
       color="transparent"
       :flat="true"
-      :prominent="true"
       :scroll-off-screen="true"
       :scroll-threshold="100"
       :fixed="true">

@@ -2,9 +2,7 @@ import {
   HTTP
 } from "./http-common";
 
-import {createClient} from '~/plugins/contentful.js';
-
-const client = createClient();
+import {createClient} from '../plugins/contentful.js';
 
 export default {
   getData() {
@@ -14,7 +12,8 @@ export default {
     // this.$axios.$get(API);
   },
   getEntriesByType(payload) {
-    return client.getEntries({
+    return createClient.getEntries({
+      "sys.id": process.env.CTF_PERSON_ID,
       'content_type': payload,
       order: '-sys.createdAt'
     });
