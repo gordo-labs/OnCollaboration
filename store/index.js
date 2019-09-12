@@ -6,6 +6,12 @@ export const state = () => ({
   post:null,
   intro:[],
   programa: [],
+  evento: [],
+  opencol:[],
+  loading: null,
+  error: null,
+  title: null,
+  isHeader: true
 });
 
 export const mutations = {
@@ -15,7 +21,13 @@ export const mutations = {
   },
   setStateDataByType(state, payload){
     console.log("POSTS_MUTATION => " + payload.postType + " => ",payload.data);
-    state[payload.postType]= payload.data;
+    let data = payload.data;
+    let compare = (a, b) => {
+      if (a.fields.id < b.fields.id) return -1;
+      if (a.fields.id > b.fields.id) return 1;
+      return 0;
+    };
+    state[payload.postType]= data;
   },
   setPost(state, payload){
     console.log("POST_MUTATION => ",payload);
@@ -25,11 +37,22 @@ export const mutations = {
     console.log("CATEGORIES.MUTATION => ",payload);
     state.categories = payload;
   },
+  setLoading(state, payload) {
+    state.loading = payload;
+  },
+  setError(state, payload) {
+    state.loading = payload;
+  },
+  setTitle(state, payload) {
+    state.title = payload;
+  },
+  setHeader(state, payload) {
+    state.isHeader = payload;
+  },
 };
 
 export const actions = {
   async getEntriesAction ({ commit }, payload) {
-    // const pages = await this.$axios.get('wp/v2/posts');
     const posts = await mainService.getEntriesByType(payload);
     const data = {
       postType: payload,
@@ -38,7 +61,6 @@ export const actions = {
     commit('setStateDataByType', data);
   },
   async getPostId_A ({ commit }, payload) {
-    // const pages = await this.$axios.get('wp/v2/posts');
     const post = await mainService.getPostId_Data(payload);
     post.data.map(post=>{
       if(!!post._embedded['wp:featuredmedia']){
@@ -48,7 +70,6 @@ export const actions = {
     commit('setPost', post.data[0]);
   },
   async getCategories_A ({ commit }) {
-    // const pages = await this.$axios.get('wp/v2/posts');
     const categories = await mainService.getCategories_Data();
     // set childs array
     const CATS = categories.data;
@@ -74,7 +95,6 @@ export const actions = {
     commit('setCategories', categoriesOrdered);
   },
   async getCategory_A ({ commit }) {
-    // const pages = await this.$axios.get('wp/v2/posts');
     const categories = await mainService.getCategories_Data();
     commit('setCategories', categories.data);
   },

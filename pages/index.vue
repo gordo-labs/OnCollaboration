@@ -1,56 +1,37 @@
 <template>
-  <div class="bg-main">
-    <!--INTRO-->
-    <v-content class="base-container">
-      <v-content class="content pa-3 init">
-        <section class="image-container">
-          <img
-            src="~/assets/images/ON_INTRO.png"
-            class="init_title"
-            @click="infoPanel = !infoPanel"
-          />
-        </section>
-        <section class="on-element" v-show="infoPanel" v-if="intro[0]">
-          <div v-for="cont in intro[0].fields.introContent.content">
-            <p v-if="cont.content[0]">{{ cont.content[0].value }}</p>
-          </div>
-        </section>
-      </v-content>
-
-      <programa class="programa"></programa>
-      <!--PROGRAMA -->
-      <v-content class="content pa-3 programa">
-<!--        <section>
-          <img
-            src="~/assets/images/ON_PROGRAMA_TITLE.svg"
-            class="programa-title"
-          />
-        </section>-->
-      </v-content>
-    </v-content>
-
-    <!--
-    <v-content v-if="$route.params.slug" class="content pa-3 loaded">
-      <NuxtChild :key="$route.params.slug" />
-    </v-content>
-    -->
-  </div>
+  <v-container>
+    <v-row justify="center" class="content init" v-if="show">
+      <section class="on-element" v-if="intro[0]">
+        <div v-html="documentToHtmlString(intro[0].fields.introContent)"></div>
+      </section>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
-import programa from "~/components/program";
+import TitleImage from "../components/titleImage";
+import navigation from "~/components/navigation";
+import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
+
 export default {
   components: {
-    programa
+    TitleImage,
+    navigation
   },
   data: () => {
     return {
       show: false,
-      infoPanel: false
+      infoPanel: false,
+      documentToHtmlString: documentToHtmlString
     };
   },
   created() {
     this.$store.dispatch("getEntriesAction", "intro");
+    this.$store.commit("setTitle", null);
+    this.$store.commit("setHeader", true);
+  },
+  mounted() {
+    this.show = true;
   },
   computed: {
     intro() {
@@ -72,151 +53,27 @@ export default {
 };
 </script>
 
+<style lang="scss" module></style>
+
 <style lang="scss">
-@import "@/assets/scss/working.scss";
-
-$primary: #4c4885;
-
-.programa {
-  margin-top: 120px !important;
-}
-.image-container {
-  position: fixed;
-  top: 60px;
-  left: 20px;
-  z-index: 5;
-  img {
-    width: 150px;
-  }
-}
-
-.base-container {
-  max-width: 1100px;
-  margin: 0 auto;
-}
-
-.init {
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.init {
-  position: relative;
-}
-
 .on-element {
-  top: 160px;
-  left: 0px;
-  margin: 10px;
-  z-index: 10;
-  position: fixed;
-  background-color: white;
-  padding: 30px;
-  border: 15px solid $primary;
+  padding: 10px;
   font-family: "Consolas", Helvetica !important;
   p {
     font-family: "Consolas", Helvetica !important;
     color: #4c4885;
-    font-size: 1.5em;
+    font-size: $base-font;
+    font-weight: 600;
     margin-bottom: 10px;
-    @include media(S) {
-      font-size: 1.2em;
+    @include media(XS) {
+      font-size: $desc-font;
+    }
+    @include media(SM) {
+      font-size: $base-font;
     }
   }
   img {
     width: 80%;
-  }
-  .init_text {
-    position: absolute;
-    width: 70%;
-    bottom: 0;
-    right: 0;
-  }
-  .init_title {
-    position: absolute;
-    width: 70%;
-    top: 0;
-    left: 0;
-  }
-}
-
-.bg-main {
-  height: 100%;
-  width: 100%;
-}
-
-.programa {
-  position: relative;
-  margin: 70px 0;
-  @include media(S) {
-    margin: 10px 0;
-  }
-  .programa-title {
-    height: 180px;
-    @include media(S) {
-      height: 70px;
-    }
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
-  .programa-content {
-    margin-left: 10%;
-  }
-  .programa-loading {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    @include media(S) {
-      top: 45%;
-      left: 45%;
-    }
-    img {
-      height: 100px;
-      @include media(S) {
-        height: 60px;
-      }
-      &:hover {
-        -webkit-animation: rotate-center 0.6s ease-in-out reverse both;
-        animation: rotate-center 0.6s ease-in-out reverse both;
-      }
-    }
-    p {
-      text-align: center;
-      font-family: "Consolas", Helvetica !important;
-      color: #d13b54;
-      font-weight: 600;
-      font-size: 2em;
-      margin-top: 10px;
-      @include media(S) {
-        font-size: 1.3em;
-      }
-    }
-  }
-}
-
-@-webkit-keyframes rotate-center {
-  0% {
-    -webkit-transform: rotate(0);
-    transform: rotate(0);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-@keyframes rotate-center {
-  0% {
-    -webkit-transform: rotate(0);
-    transform: rotate(0);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
   }
 }
 </style>

@@ -1,6 +1,6 @@
-import VuetifyLoaderPlugin from 'vuetify-loader/lib/plugin'
-import pkg from './package'
-const contentfulConfig = require('./.contentful.json');
+import VuetifyLoaderPlugin from "vuetify-loader/lib/plugin";
+import pkg from "./package";
+const contentfulConfig = require("./.contentful.json");
 
 export default {
   /*
@@ -58,6 +58,10 @@ export default {
         href:
           "https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"
       }
+    ],
+    script: [
+      {
+      }
     ]
   },
 
@@ -72,19 +76,22 @@ export default {
   css: [
     "normalize.css/normalize.css",
     "~assets/fonts/consolas/stylesheet.css",
-    "~assets/style/app.styl",
-    "~assets/styles/fonts.scss",
-    "@/assets/scss/style.scss"
-    // '~assets/default/default.scss',
+    "~assets/style/app.styl"
   ],
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ["@/plugins/vuetify", "~/plugins/filters.js", "~/plugins/axios"],
+  plugins: [
+    "@/plugins/vuetify",
+    "~/plugins/filters.js",
+    "~/plugins/moment.js",
+    "~/plugins/vue-audio-visual.js",
+    "~/plugins/axios"
+  ],
   axios: {
     proxy: false // Can be also an object with default options
   },
-  
+
   /*
   Environment export Contenful
    */
@@ -105,12 +112,25 @@ export default {
       {
         id: "UA-138988521-1"
       }
-    ]
+    ],
+    "@nuxtjs/style-resources",
+    "@nuxtjs/moment"
   ],
+
+  styleResources: {
+    scss: [
+      "assets/scss/base/_variables.scss",
+      "assets/scss/base/_medias.scss",
+      "assets/scss/helpers/_mixins.scss",
+      "assets/scss/helpers/_m-fonts.scss",
+      "assets/scss/helpers/_animations.scss"
+    ]
+  },
 
   /*
    ** Build configuration
    */
+
   mode: "spa",
   build: {
     transpile: ["vuetify/lib"],
@@ -126,24 +146,26 @@ export default {
     extend(config, ctx) {}
   },
   generate: {
-    routes () {
+    routes() {
       return Promise.all([
         // get all blog posts
         client.getEntries({
-          'content_type': env.CTF_BLOG_POST_TYPE_ID
+          content_type: env.CTF_BLOG_POST_TYPE_ID
         }),
         // get the blog post content type
-        client.getSpace(env.CTF_SPACE_ID)
+        client
+          .getSpace(env.CTF_SPACE_ID)
           .then(space => space.getContentType(env.CTF_BLOG_POST_TYPE_ID))
-      ])
-        .then(([entries, postType]) => {
-          return [
-            // map entries to URLs
-            ...entries.items.map(entry => `/blog/${entry.fields.slug}`),
-            // map all possible tags to URLs
-            ...postType.fields.find(field => field.id === 'tags').items.validations[0].in.map(tag => `/tags/${tag}`)
-          ]
-        })
+      ]).then(([entries, postType]) => {
+        return [
+          // map entries to URLs
+          ...entries.items.map(entry => `/blog/${entry.fields.slug}`),
+          // map all possible tags to URLs
+          ...postType.fields
+            .find(field => field.id === "tags")
+            .items.validations[0].in.map(tag => `/tags/${tag}`)
+        ];
+      });
     }
   }
 };
