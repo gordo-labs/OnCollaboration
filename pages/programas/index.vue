@@ -1,18 +1,22 @@
 <template>
-  <v-container :class="$style['base']">
-    <div :class="$style['tabs-line']">
+  <v-container :class="$style['base']" class="tabs">
+<!--    <div :class="$style['tabs-line']" ref="selector">
       <img src="~/assets/images/ON_arrows_tabs_line_left.svg" />
       <img src="~/assets/images/ON_arrows_tabs_line_right.svg" />
+    </div>-->
+
+    <div :class="$style['tabs-line_mobile']" ref="selector">
     </div>
 
     <v-tabs
       v-model="tab"
       color="transparent"
-      center-active
+      centered
+      :center-active="true"
       :class="$style['tabs-style']"
     >
-      <v-tab :class="$style['tab-style']"></v-tab>
-      <v-tab :class="$style['tab-style']"></v-tab>
+      <v-tabs-slider> </v-tabs-slider>
+
       <v-tab
         v-for="item in posts"
         :key="item.fields.title"
@@ -23,9 +27,41 @@
           {{ item.fields.title }}
         </p>
       </v-tab>
-      <v-tab :class="$style['tab-style']"></v-tab>
-      <v-tab :class="$style['tab-style']"></v-tab>
     </v-tabs>
+    <!--
+    <v-tabs
+      v-model="tab"
+      background-color="deep-purple accent-4"
+      class="elevation-2"
+      dark
+      :centered="true"
+      :center-active="true"
+    >
+      <v-tabs-slider></v-tabs-slider>
+
+      <v-tab
+        v-for="i in tabs"
+        :key="i"
+        :href="`#tab-${i}`"
+      >
+        Tab {{ i }}
+        <v-icon v-if="icons">mdi-phone</v-icon>
+      </v-tab>
+
+      <v-tab-item
+        v-for="i in tabs"
+        :key="i"
+        :value="'tab-' + i"
+      >
+        <v-card
+          flat
+          tile
+        >
+          <v-card-text>{{ text }}</v-card-text>
+        </v-card>
+      </v-tab-item>
+    </v-tabs>
+-->
 
     <v-tabs-items v-model="tab" class="mt-4">
       <v-content
@@ -82,14 +118,9 @@ export default {
   name: "program",
   components: { TitleImage },
   data: () => ({
-    size: "sm",
     tab: null,
     documentToHtmlString: documentToHtmlString,
-    colors: ["primary", "secondary", "yellow darken-2", "red", "orange"],
-    model: 0,
-    showArrows: true,
-    hideDelimiters: true,
-    cycle: true
+    model: 0
   }),
   computed: {
     posts() {
@@ -103,24 +134,33 @@ export default {
     }
   },
   created() {
-    console.log("style", this.$style.isRecorded);
     this.$store.dispatch("getEntriesAction", "programa");
     this.$store.commit("setTitle", "PROGRAMAS");
     this.$store.commit("setHeader", true);
+  },
+  mounted() {
+    let slider = document.getElementsByClassName("v-tabs__slider-wrapper");
+    console.log(slider);
+    slider[0].appendChild(this.$refs.selector);
   }
 };
 </script>
 
-<style scoped lang="scss">
-.image-container {
-  width: 40vw !important;
-  img {
-    width: 100%;
+<style lang="scss">
+.tabs {
+  .v-tabs__div {
+    background-image: url("~assets/images/ON_dot.svg");
+    background-size: 20px 30px;
+    background-repeat: repeat-x;
+    background-position-x: center;
   }
-}
+  .v-tabs__slider-wrapper {
+  }
 
-.v-tabs__div {
-  width: 200px;
+  .v-tabs__wrapper{
+      overflow: visible !important;
+      contain: inherit !important;
+  }
 }
 </style>
 
@@ -142,6 +182,9 @@ export default {
   height: 75px;
   background-color: $sc;
   z-index: 1000;
+  @include media(ML) {
+    display: none;
+  }
   img {
     height: 10px;
     width: auto;
@@ -150,6 +193,34 @@ export default {
   }
   img:first-child {
     left: -35px;
+  }
+  img:last-child {
+    left: 18px;
+  }
+}
+
+
+.tabs-line_mobile {
+  position: absolute;
+  left: 50%;
+  top: -60px;
+  transform: translateX(-50%);
+  width: 5px;
+  height: 38px;
+  background-color: $sc;
+  z-index: 10000;
+  @include media(ML) {
+    top: -80px;
+    height: 58px;
+  }
+  img {
+    height: 10px;
+    width: auto;
+    position: absolute;
+    top: 10px;
+  }
+  img:first-child {
+    left: -33px;
   }
   img:last-child {
     left: 18px;
@@ -166,15 +237,36 @@ export default {
   --pr: #d13b54;
 }
 
+.tabs-style {
+  position: relative;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 10%,
+    rgba(255, 255, 255, 0.8) 26%,
+    rgba(255, 255, 255, 0.9) 50%,
+    rgba(255, 255, 255, 0.8) 74%,
+    rgba(255, 255, 255, 0) 90%
+  );
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#00ffffff',GradientType=1 );
+}
+
 .tab-style {
+  min-width: 70px;
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   background-image: url("~assets/images/ON_dot.svg");
-  background-size: 20px 30px;
   background-repeat: repeat-x;
   background-position-x: center;
+  background-size: 15px 20px;
+  @include media(ML) {
+    background-size: 20px 30px;
+    min-width: 150px;
+  }
+  &:first-child {
+    padding-left: 400px;
+  }
   a {
     flex-direction: column;
     padding-bottom: 2px;
@@ -190,25 +282,6 @@ export default {
     margin-bottom: 6px;
     background-color: $pr;
     z-index: 1000;
-  }
-}
-
-.tabs-style {
-  position: relative;
-  background: linear-gradient(
-    to right,
-    rgba(255, 255, 255, 0) 10%,
-    rgba(255, 255, 255, 0.8) 26%,
-    rgba(255, 255, 255, 0.9) 50%,
-    rgba(255, 255, 255, 0.8) 74%,
-    rgba(255, 255, 255, 0) 90%
-  );
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#00ffffff',GradientType=1 );
-  .v-tabs__div {
-    background-image: url("~assets/images/ON_dot.svg");
-    background-size: 20px 30px;
-    background-repeat: repeat-x;
-    background-position-x: center;
   }
 }
 

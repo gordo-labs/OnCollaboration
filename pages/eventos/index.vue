@@ -1,10 +1,10 @@
 <template>
-  <v-content>
+  <v-container>
     <v-content
       v-for="event in events"
       :key="event.eventId"
       :class="$style['event-content']"
-      class="mx-3 my-3"
+      class="my-3"
       v-if="event"
     >
       <v-card-text flat color="transparent"
@@ -22,7 +22,7 @@
         </v-card-text>
       </v-card>
     </v-content>
-  </v-content>
+  </v-container>
 </template>
 
 <script>

@@ -1,5 +1,5 @@
 <template>
-  <v-content>
+  <v-content :class="$style['nav-bar']">
     <v-tabs
       v-model="tab"
       background-color="transparent"
@@ -21,7 +21,7 @@
     </v-tabs>
 
     <!--tabs 2-->
-<!--    <v-tabs
+    <!--    <v-tabs
       background-color="transparent"
       color="transparent"
       :class="$style.tabs"
@@ -88,8 +88,27 @@ export default {
 </script>
 
 <style module lang="scss">
+.nav-bar {
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
+  background-color: white;
+  box-shadow: 0px -2px 1px solid black !important;
+  z-index: 10;
+  @include media(ML) {
+    position: absolute;
+    background-color: $pr-bg;
+    height: 50px;
+    top: 30px;
+    width: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    .tabs{
+      padding: 0 20px;
+    }
+  }
+}
 .tabs {
-
 }
 .base-tab {
   font-size: 13px;

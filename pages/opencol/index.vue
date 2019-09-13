@@ -1,7 +1,7 @@
 <template>
   <v-container :class="$style.base">
 
-    <v-layout column justify-center>
+    <v-layout column justify-center >
 
       <v-row :class="$style['record-row']">
         <div :class="$style.record">
@@ -21,6 +21,7 @@
           </v-card-text>
         </v-card>
       </v-row>
+
     </v-layout>
   </v-container>
 </template>
@@ -60,7 +61,7 @@ export default {
 
 <style module lang="scss">
   .base{
-    min-height: 100vh;
+    max-width: 700px;
   }
 
   .record-row{

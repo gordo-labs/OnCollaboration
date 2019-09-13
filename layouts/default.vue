@@ -1,20 +1,40 @@
 <template>
   <v-content :class="$style.base">
-    <on-loader :isLoading="isLoading" class="loader"></on-loader>
+    <v-content :class="$style.main">
+      <on-loader :isLoading="isLoading" class="loader"></on-loader>
 
-    <transition name="fade">
-      <v-container class="d-flex" v-if="isHeader">
-        <title-image></title-image>
-        <div class="flex-grow-1"></div>
-        <v-content :class="$style['floating-title']">
-          <p>{{ title }}</p>
-        </v-content>
-      </v-container>
-    </transition>
+      <transition name="fade">
+        <v-container class="d-flex" v-if="isHeader">
+          <title-image></title-image>
+          <div class="flex-grow-1"></div>
+          <v-content :class="$style['floating-title']">
+            <p>{{ title }}</p>
+          </v-content>
+        </v-container>
+      </transition>
 
-    <nuxt :class="$style['main-content']" />
+      <nuxt :class="$style['main-content']" />
 
-    <navigation ref="navBar" :class="$style['nav-bar']"></navigation>
+      <navigation ref="navBar"></navigation>
+    </v-content>
+
+    <v-footer padless :class="$style.footer">
+      <v-row justify="center" no-gutters class="my-2">
+        <v-btn
+          v-for="link in links"
+          :key="link"
+          flat
+          class="my-2"
+        >
+          <a :href="link.link">
+            {{ link.text }}
+          </a>
+        </v-btn>
+      </v-row>
+      <v-row class="my-2">
+        <strong>On Collaboration</strong>
+      </v-row>
+    </v-footer>
   </v-content>
 </template>
 
@@ -45,7 +65,13 @@ export default {
   },
   data: () => {
     return {
-      isLoading: false
+      isLoading: false,
+      links: [
+        { text: "Redes", link: "programas" },
+        { text: "Ivoox", link: "podcasts" },
+        { text: "Itunes", link: "opencol" },
+        { text: "Spotify", link: "eventos" }
+      ]
     };
   },
   created() {
@@ -86,10 +112,7 @@ export default {
     matchHeight() {
       let height = this.$refs.navBar.offsetHeight;
       console.log("navbarHeight > ", height);
-      document.documentElement.style.setProperty(
-        "--navBarHeight",
-        `${height}px`
-      );
+      document.documentElement.style.setProperty("--navBarHeight", `${50}px`);
       return height;
     }
   }
@@ -97,9 +120,34 @@ export default {
 </script>
 
 <style lang="scss" module>
+.main {
+  height: 100vh;
+}
+
+.footer {
+  background-color: $pr-bg;
+  *{
+    color: $pr;
+  }
+  font-size: 15px;
+  font-weight: 600;
+  font-family: "Consolas", Helvetica;
+  text-align: right;
+  justify-content: center;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  height: 150px !important;
+  @include media(ML) {
+    display: flex;
+  }
+}
+
 .base {
   display: block;
   background-color: $pr-bg;
+  height: 100vh;
+  width: 100vw;
 }
 .floating-title {
   color: $sc;
@@ -107,22 +155,15 @@ export default {
   font-weight: 600;
   font-family: "Consolas", Helvetica;
   text-align: right;
+  @include media(ML) {
+    font-size: 25px;
+    margin-top: 20px;
+  }
 }
 .main-content {
   background-color: $pr-bg;
   display: block;
   z-index: 1;
-  height: calc(100vh - var(--navBarHeight));
-  height: 100vh;
-  /*height: calc(var(--vh, 1vh) * 100 - var(--navBarHeight));*/
-}
-.nav-bar {
-  position: fixed;
-  bottom: 0;
-  width: 100vw;
-  background-color: white;
-  box-shadow: 0px -2px 1px solid black !important;
-  z-index: 10;
 }
 </style>
 
