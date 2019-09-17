@@ -1,26 +1,25 @@
 <template>
   <v-container>
+    <v-content :class="$style.line"></v-content>
     <v-content
       v-for="event in events"
       :key="event.eventId"
-      :class="$style['event-content']"
       class="my-3"
       v-if="event"
+      :class="$style['event-container']"
     >
-      <v-card-text flat color="transparent"
-        :class="$style['event-title']"
-      >
-        <p>{{ event.fields.eventTitle }}</p>
+      <v-card-text :class="$style['event-content-inner']">
+        {{ event.fields.eventDate | moment("MM Do YYYY") }}
       </v-card-text>
-      <v-card flat color="transparent">
-        <v-card-text :class="$style['event-content-inner']">
-          {{ event.fields.eventDate | moment("MMMM Do YYYY") }}
+      <v-content :class="$style['event-content']">
+        <v-card-text flat color="transparent" :class="$style['event-title']">
+          {{ event.fields.eventTitle }}
         </v-card-text>
-        <v-card-text
-          v-html="documentToHtmlString(event.fields.eventDesc)"
-        >
+        <v-card-text v-html="documentToHtmlString(event.fields.eventDesc)">
         </v-card-text>
-      </v-card>
+      </v-content>
+
+      <v-content :class="$style.line"></v-content>
     </v-content>
   </v-container>
 </template>
@@ -32,6 +31,19 @@ import TitleImage from "../../components/titleImage";
 export default {
   name: "index.vue",
   components: { TitleImage },
+    head() {
+        return {
+            title: 'Eventos',
+            meta: [
+                // hid is used as unique identifier. Do not use `vmid` for it as it will not work
+                {
+                    hid: "description",
+                    name: "Eventos",
+                    content: "Eventos | On Collaboration"
+                }
+            ],
+        };
+    },
   data: () => ({
     documentToHtmlString: documentToHtmlString
   }),
@@ -43,17 +55,27 @@ export default {
   created() {
     this.$store.dispatch("getEntriesAction", "evento");
     this.$store.commit("setTitle", "EVENTOS");
-      this.$store.commit("setHeader", true);
+    this.$store.commit("setHeader", true);
   }
 };
 </script>
 
 <style module lang="scss">
-
-.event-title{
+.event-container {
+  color: $sc;
+  font-family: "Consolas", Helvetica;
+  max-width: 600px;
+  margin: 0 auto;
+}
+.line {
+  background-color: $sc;
+  width: 70%;
+  height: 1px;
+  margin: 50px auto;
+}
+.event-title {
   font-weight: 800;
   font-size: 18px;
-  text-align: center;
 }
 
 .tab-style {
@@ -71,12 +93,12 @@ export default {
 
 .tabs-style {
   background: linear-gradient(
-      to right,
-      rgba(255, 255, 255, 0) 10%,
-      rgba(255, 255, 255, 0.6) 26%,
-      rgba(255, 255, 255, 0.7) 50%,
-      rgba(255, 255, 255, 0.6) 74%,
-      rgba(255, 255, 255, 0) 90%
+    to right,
+    rgba(255, 255, 255, 0) 10%,
+    rgba(255, 255, 255, 0.6) 26%,
+    rgba(255, 255, 255, 0.7) 50%,
+    rgba(255, 255, 255, 0.6) 74%,
+    rgba(255, 255, 255, 0) 90%
   );
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#00ffffff',GradientType=1 );
 }

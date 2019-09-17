@@ -11,7 +11,8 @@ export const state = () => ({
   loading: null,
   error: null,
   title: null,
-  isHeader: true
+  isHeader: true,
+  programTitle: '',
 });
 
 export const mutations = {
@@ -27,6 +28,7 @@ export const mutations = {
       if (a.fields.id > b.fields.id) return 1;
       return 0;
     };
+    data.sort(compare);
     state[payload.postType]= data;
   },
   setPost(state, payload){
@@ -48,6 +50,13 @@ export const mutations = {
   },
   setHeader(state, payload) {
     state.isHeader = payload;
+  },
+  setProgramTitle(state, payload) {
+    if (payload){
+      state.programTitle = payload;
+    } else {
+      state.programTitle = state.programa[0].fields.title;
+    }
   },
 };
 

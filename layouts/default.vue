@@ -1,6 +1,7 @@
 <template>
   <v-content :class="$style.base">
-    <v-content :class="$style.main">
+    <div :class="$style.main" class="pb-5">
+
       <on-loader :isLoading="isLoading" class="loader"></on-loader>
 
       <transition name="fade">
@@ -16,31 +17,26 @@
       <nuxt :class="$style['main-content']" />
 
       <navigation ref="navBar"></navigation>
-    </v-content>
+
+    </div>
 
     <v-footer padless :class="$style.footer">
-      <v-row justify="center" no-gutters class="my-2">
-        <v-btn
-          v-for="link in links"
-          :key="link"
-          flat
-          class="my-2"
-        >
-          <a :href="link.link">
-            {{ link.text }}
-          </a>
-        </v-btn>
-      </v-row>
-      <v-row class="my-2">
-        <strong>On Collaboration</strong>
-      </v-row>
+        <div justify="center" no-gutters class="my-2">
+          <v-btn v-for="link in links" :key="link.text" flat class="my-2">
+            <a :href="link.link">
+              {{ link.text }}
+            </a>
+          </v-btn>
+        </div>
+        <div class="my-2">
+          <strong>On Collaboration dummy text</strong>
+        </div>
     </v-footer>
   </v-content>
 </template>
 
 <script>
 // set virtual height
-import TitleImage from "../components/titleImage";
 let vh = window.innerHeight * 0.01;
 document.documentElement.style.setProperty("--vh", `${vh}px`);
 console.log("VIRTUAL HEIGHT UNIT => ", vh);
@@ -54,6 +50,7 @@ window.addEventListener("resize", () => {
   document.documentElement.style.setProperty("--navBarHeight", `${height}px`);
 });
 
+import TitleImage from "../components/titleImage";
 import onLoader from "~/components/onLoader";
 import navigation from "~/components/navigation";
 
@@ -67,10 +64,10 @@ export default {
     return {
       isLoading: false,
       links: [
-        { text: "Redes", link: "programas" },
-        { text: "Ivoox", link: "podcasts" },
-        { text: "Itunes", link: "opencol" },
-        { text: "Spotify", link: "eventos" }
+        { text: "Redes", link: "" },
+        { text: "Ivoox", link: "https://www.ivoox.com/escuchar-on-collaboration_nq_578636_1.html" },
+        { text: "Itunes", link: "" },
+        { text: "Spotify", link: "" }
       ]
     };
   },
@@ -107,7 +104,6 @@ export default {
       this.matchHeight();
     });
   },
-  created() {},
   methods: {
     matchHeight() {
       let height = this.$refs.navBar.offsetHeight;
@@ -121,20 +117,20 @@ export default {
 
 <style lang="scss" module>
 .main {
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .footer {
-  background-color: $pr-bg;
-  *{
+  * {
     color: $pr;
   }
+  background-color: $pr-bg;
   font-size: 15px;
   font-weight: 600;
   font-family: "Consolas", Helvetica;
   text-align: right;
   justify-content: center;
-  display: none;
+  display: none !important;
   flex-direction: column;
   align-items: center;
   height: 150px !important;
@@ -146,9 +142,10 @@ export default {
 .base {
   display: block;
   background-color: $pr-bg;
-  height: 100vh;
+  height: auto;
   width: 100vw;
 }
+
 .floating-title {
   color: $sc;
   font-size: 15px;
@@ -164,27 +161,11 @@ export default {
   background-color: $pr-bg;
   display: block;
   z-index: 1;
+  max-width: 960px;
 }
 </style>
 
 <style lang="scss">
-:root {
-  --vh: 1vh;
-  --navbarHeight: 90px;
-  --primary: $pr;
-  --pr-bg: $pr-bg;
-  --sc: $sc;
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s;
-  transform-style: preserve-3d;
-  height: auto;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
-}
 
 @import "@/assets/scss/working.scss";
 
@@ -206,15 +187,4 @@ span {
   font-family: "Consolas", Helvetica;
 }
 
-.page-enter-active,
-.page-leave-active {
-  transition: opacity 0.4s, transform 0.4s;
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
-  opacity: 1;
-}
-.page-enter,
-.page-leave-active {
-  opacity: 0.5;
-}
 </style>

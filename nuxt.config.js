@@ -13,7 +13,7 @@ export default {
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
 
-      { hid: "title", name: "title", content: "On Collaboration." },
+      { hid: "title", name: "title", content: "On Collaboration" },
       {
         hid: "description",
         name: "description",
@@ -23,7 +23,7 @@ export default {
 
       // google
       { itemprop: "name", content: "On Collaboration." },
-      { itemprop: "image", content: "/rrss/REDES_insta_1.jpg" },
+      { itemprop: "image", content: "/rrss/ON_base.png.jpg" },
       {
         itemprop: "description",
         content:
@@ -38,13 +38,14 @@ export default {
         content:
           "On Collaboration es un proyecto cultural en formato de programa radiofónico en torno a la colaboración."
       },
-      { name: "twitter:image:src", content: "/rrss/XXXX.jpg" },
+      { name: "twitter:image:src", content: "/rrss/ON_ICON_MAIN.svg" },
 
       // graph data
-      { property: "og:title", content: "On Collaboration." },
+      { property: "og:site_name", content: "On Collaboration" },
+      { property: "og:title", content: "On Collaboration" },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://oncollaboration.net/" },
-      { property: "og:image", content: "/rrss/XXXX.jpg" },
+      { property: "og:url", content: "http://oncollaboration.net/" },
+      { property: "og:image", itemprop:"image", content: "/rrss/ON_base.png" },
       {
         property: "og:description",
         content:
@@ -57,7 +58,7 @@ export default {
         rel: "stylesheet",
         href:
           "https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"
-      }
+      },
     ],
     script: [
       {
@@ -68,7 +69,7 @@ export default {
   /*
    ** Customize the progress-bar color
    */
-  loading: { color: "#fff" },
+  loading: { color: "#D13B54" },
 
   /*
    ** Global CSS
@@ -76,6 +77,7 @@ export default {
   css: [
     "normalize.css/normalize.css",
     "~assets/fonts/consolas/stylesheet.css",
+    "~assets/styles/root.scss",
     "~assets/style/app.styl"
   ],
   /*
@@ -86,7 +88,8 @@ export default {
     "~/plugins/filters.js",
     "~/plugins/moment.js",
     "~/plugins/vue-audio-visual.js",
-    "~/plugins/axios"
+    "~/plugins/axios",
+    "~/plugins/mixins",
   ],
   axios: {
     proxy: false // Can be also an object with default options
@@ -110,7 +113,10 @@ export default {
     [
       "@nuxtjs/google-analytics",
       {
-        id: "UA-138988521-1"
+        id: "UA-148177375-1",
+        autoTracking: {
+          screenview: true
+        }
       }
     ],
     "@nuxtjs/style-resources",
@@ -146,7 +152,7 @@ export default {
     extend(config, ctx) {}
   },
   generate: {
-    routes() {
+/*    routes() {
       return Promise.all([
         // get all blog posts
         client.getEntries({
@@ -166,6 +172,6 @@ export default {
             .items.validations[0].in.map(tag => `/tags/${tag}`)
         ];
       });
-    }
+    }*/
   }
 };

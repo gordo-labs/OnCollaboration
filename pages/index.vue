@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container :class="$style.indexContent">
     <v-row justify="center" class="content init" v-if="show">
       <section class="on-element" v-if="intro[0]">
         <div v-html="documentToHtmlString(intro[0].fields.introContent)"></div>
@@ -53,7 +53,38 @@ export default {
 };
 </script>
 
-<style lang="scss" module></style>
+<style lang="scss" module>
+.indexContent {
+  max-width: 600px;
+  @include media(ML) {
+    background-color: white;
+    border: 10px solid var(--pr);
+    font-family: "Consolas", Helvetica;
+    color: var(--pr);
+    .tab-content-inner {
+      color: var(--pr);
+    }
+    .subtitle {
+      color: var(--pr);
+      font-weight: 800;
+      font-size: 18px;
+      text-align: center;
+    }
+    .tab-cta {
+      background-color: var(--pr);
+      display: flex;
+      justify-content: center;
+      color: white;
+      &::before {
+        height: 4px;
+        width: 50%;
+        background-color: var(--pr);
+        margin-bottom: 5px;
+      }
+    }
+  }
+}
+</style>
 
 <style lang="scss">
 .on-element {
@@ -63,7 +94,6 @@ export default {
     font-family: "Consolas", Helvetica !important;
     color: #4c4885;
     font-size: $base-font;
-    font-weight: 600;
     margin-bottom: 10px;
     @include media(XS) {
       font-size: $desc-font;

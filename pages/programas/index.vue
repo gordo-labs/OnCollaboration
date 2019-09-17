@@ -1,15 +1,12 @@
 <template>
   <v-container :class="$style['base']" class="tabs">
-<!--    <div :class="$style['tabs-line']" ref="selector">
-      <img src="~/assets/images/ON_arrows_tabs_line_left.svg" />
-      <img src="~/assets/images/ON_arrows_tabs_line_right.svg" />
-    </div>-->
 
-    <div :class="$style['tabs-line_mobile']" ref="selector">
-    </div>
+    <transition name="fade">
+      <div :class="$style['tabs-line_mobile']" ref="selector" v-show="isRadioLineShown"></div>
+    </transition>
 
     <v-tabs
-      v-model="tab"
+      v-model="active_tab"
       color="transparent"
       centered
       :center-active="true"
@@ -21,89 +18,69 @@
         v-for="item in posts"
         :key="item.fields.title"
         :class="$style['tab-style']"
+        @click="sendTab(item.fields.title)"
       >
         <div :class="$style['tab-line']"></div>
+
         <p>
           {{ item.fields.title }}
         </p>
       </v-tab>
     </v-tabs>
-    <!--
-    <v-tabs
-      v-model="tab"
-      background-color="deep-purple accent-4"
-      class="elevation-2"
-      dark
-      :centered="true"
-      :center-active="true"
-    >
-      <v-tabs-slider></v-tabs-slider>
 
-      <v-tab
-        v-for="i in tabs"
-        :key="i"
-        :href="`#tab-${i}`"
-      >
-        Tab {{ i }}
-        <v-icon v-if="icons">mdi-phone</v-icon>
-      </v-tab>
-
-      <v-tab-item
-        v-for="i in tabs"
-        :key="i"
-        :value="'tab-' + i"
-      >
-        <v-card
-          flat
-          tile
-        >
-          <v-card-text>{{ text }}</v-card-text>
-        </v-card>
-      </v-tab-item>
-    </v-tabs>
+<!--
+    <transition name="fade">
+      <v-content class="mb-5" :class="$style.programTitle">
+        <h1>{{ programTitle }}</h1>
+      </v-content>
+    </transition>
 -->
 
-    <v-tabs-items v-model="tab" class="mt-4">
+    <v-tabs-items v-model="active_tab" class="mt-4">
       <v-content
         v-for="item in posts"
         v-if="item"
         :class="{ [$style.isRecorded]: item.fields.recorded }"
       >
-        <v-tab-item
-          :key="item.fields.title"
-          :class="[$style['tab-content']]"
-          class="mx-1 my-3"
-        >
-          <v-card flat color="transparent">
-            <v-card-text :class="$style['subtitle']">
-              {{ item.fields.subTitle }}
-            </v-card-text>
-            <v-card-text
-              v-if="item.fields.recorded"
-              v-html="documentToHtmlString(item.fields.programa)"
-              :class="$style['tab-content-inner']"
-            >
-            </v-card-text>
-          </v-card>
-
-          <nuxt-link :to="'/opencol'">
-            <v-card
-              v-if="item.fields.recorded"
-              class="ma-3 pa-3"
-              :class="$style['tab-cta']"
-              :to="'/' + 'podcasts'"
-            >
-              PLAY PODCASTS
+        <v-tab-item :key="item.fields.title" class="mx-1 my-3">
+      <v-content class="mb-5" :class="$style.programTitle">
+        <h1>{{ item.fields.title }}</h1>
+      </v-content>
+          <v-content :class="[$style['tab-content']]">
+            <v-card flat color="transparent">
+              <v-card-text :class="$style['subtitle']">
+                {{ item.fields.subTitle }}
+              </v-card-text>
+              <v-card-text
+                v-if="item.fields.recorded"
+                v-html="documentToHtmlString(item.fields.programa)"
+                :class="$style['tab-content-inner']"
+              >
+              </v-card-text>
             </v-card>
 
-            <v-card
-              v-if="!item.fields.recorded"
-              class="ma-3 pa-3"
-              :class="$style['tab-cta']"
-            >
-              OPEN CALL
-            </v-card>
-          </nuxt-link>
+            <nuxt-link :to="'/' + 'podcasts'">
+              <v-card
+                v-if="item.fields.recorded"
+                class="ma-3 pa-3"
+                :class="$style['tab-cta']"
+                flat
+              >
+                PLAY
+              </v-card>
+            </nuxt-link>
+
+            <nuxt-link :to="'/' + 'opencol'">
+              <v-card
+                flat
+                v-if="!item.fields.recorded"
+                class="ma-3 pa-3"
+                :class="$style['tab-cta']"
+              >
+                OPEN CALL
+              </v-card>
+            </nuxt-link>
+          </v-content>
         </v-tab-item>
       </v-content>
     </v-tabs-items>
@@ -117,10 +94,30 @@ import TitleImage from "../../components/titleImage";
 export default {
   name: "program",
   components: { TitleImage },
+    head() {
+        return {
+            title: 'Programas',
+            meta: [
+                // hid is used as unique identifier. Do not use `vmid` for it as it will not work
+                {
+                    hid: "description",
+                    name: "Programas",
+                    content: "Programas | On Collaboration"
+                }
+            ],
+            link: [
+                {
+                    rel: "stylesheet",
+                    href: "https://cdn.plyr.io/3.5.6/plyr.css"
+                }
+            ]
+        };
+    },
   data: () => ({
-    tab: null,
+    active_tab: null,
     documentToHtmlString: documentToHtmlString,
-    model: 0
+    model: 0,
+      isRadioLineShown: null
   }),
   computed: {
     posts() {
@@ -131,17 +128,35 @@ export default {
     },
     title() {
       return this.$store.state.title;
+    },
+    programTitle() {
+      return this.$store.state.programTitle;
     }
   },
   created() {
     this.$store.dispatch("getEntriesAction", "programa");
     this.$store.commit("setTitle", "PROGRAMAS");
     this.$store.commit("setHeader", true);
+    console.log("route", this.$route.name);
+  },
+  methods: {
+    sendTab(title) {
+      this.$store.commit("setProgramTitle", title);
+    }
   },
   mounted() {
     let slider = document.getElementsByClassName("v-tabs__slider-wrapper");
     console.log(slider);
     slider[0].appendChild(this.$refs.selector);
+        setTimeout(()=>{
+          this.isRadioLineShown = true;
+          if (this.posts.length > 0) {
+              let programTitle = this.$store.state.programa.find((item) =>{
+                  item
+              })
+          }
+            this.$store.commit("setProgramTitle");
+        }, 1000);
   }
 };
 </script>
@@ -157,20 +172,68 @@ export default {
   .v-tabs__slider-wrapper {
   }
 
-  .v-tabs__wrapper{
-      overflow: visible !important;
-      contain: inherit !important;
+  .v-tabs__wrapper {
+    overflow: visible !important;
+    contain: inherit !important;
   }
 }
 </style>
 
-<style module lang="scss">
-:root {
-  --pr: #4c4885;
-}
+<!-- MODULE -->
 
+<style module lang="scss">
 .base {
   position: relative;
+}
+
+.programTitle {
+  text-align: center;
+  color: var(--pr);
+  h1 {
+    margin: 2px 0;
+  }
+  h2 {
+    font-size: 15px;
+  }
+}
+
+.programTitle {
+}
+
+.tab-content {
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: white;
+  border: 10px solid var(--pr);
+  font-family: "Consolas", Helvetica;
+  color: var(--pr);
+  a{
+    text-decoration: none;
+  }
+  .tab-content-inner {
+    color: var(--pr);
+  }
+  .subtitle {
+    color: var(--pr);
+    font-weight: 800;
+    font-size: 18px;
+    text-align: center;
+  }
+  .tab-cta {
+    background-color: var(--pr);
+    display: flex;
+    justify-content: center;
+    color: white;
+    a{
+      text-decoration: none;
+    }
+    &::before {
+      height: 4px;
+      width: 50%;
+      background-color: var(--pr);
+      margin-bottom: 5px;
+    }
+  }
 }
 
 .tabs-line {
@@ -198,7 +261,6 @@ export default {
     left: 18px;
   }
 }
-
 
 .tabs-line_mobile {
   position: absolute;
@@ -285,31 +347,9 @@ export default {
   }
 }
 
-.tab-content {
-  background-color: white;
-  border: 10px solid var(--pr);
-  font-family: "Consolas", Helvetica;
-  color: var(--pr);
-  .tab-content-inner {
-    color: var(--pr);
-  }
-  .subtitle {
-    color: var(--pr);
-    font-weight: 800;
-    font-size: 18px;
-    text-align: center;
-  }
-  .tab-cta {
-    background-color: var(--pr);
-    display: flex;
-    justify-content: center;
-    color: white;
-    &::before {
-      height: 4px;
-      width: 50%;
-      background-color: var(--pr);
-      margin-bottom: 5px;
-    }
-  }
+.podcastContainer {
+  border-bottom: 2px solid $sc;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
 }
 </style>

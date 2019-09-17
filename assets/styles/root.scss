@@ -1,0 +1,48 @@
+:root {
+  --pr: #4c4885;
+  --vh: 1vh;
+  --navbarHeight: 90px;
+  --primary: $pr;
+  --pr-bg: $pr-bg;
+  --sc: $sc;
+  --base-font:$base-font;
+  --desc-font: $desc-font;
+  --title-font: $title-font;
+}
+
+//BASE
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s;
+  transform-style: preserve-3d;
+  height: auto;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.4s, transform 0.4s;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  opacity: 1;
+}
+.page-enter,
+.page-leave-active {
+  opacity: 0.5;
+}
+
+//plyr
+
+.plyr__menu, .plyr__volume{
+  display: none !important;
+}
+.icon--not-pressed, .icon--pressed{
+  color: var(--pr) !important;
+}
+.plyr--full-ui input[type=range]{
+  color:  var(--sc) !important;
+}
+

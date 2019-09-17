@@ -13,7 +13,7 @@
         :href="`#tab-${i}`"
         :class="$style['base-tab']"
         color="#D13B54"
-        :to="i.link"
+        :to="'/' + i.link"
       >
         {{ i.text }}
         <v-icon v-if="icons">mdi-phone</v-icon>
