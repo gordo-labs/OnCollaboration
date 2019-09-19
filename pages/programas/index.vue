@@ -1,8 +1,11 @@
 <template>
   <v-container :class="$style['base']" class="tabs">
-
     <transition name="fade">
-      <div :class="$style['tabs-line_mobile']" ref="selector" v-show="isRadioLineShown"></div>
+      <div
+        :class="$style['tabs-line_mobile']"
+        ref="selector"
+        v-show="isRadioLineShown"
+      ></div>
     </transition>
 
     <v-tabs
@@ -12,6 +15,7 @@
       :center-active="true"
       :class="$style['tabs-style']"
     >
+
       <v-tabs-slider> </v-tabs-slider>
 
       <v-tab
@@ -22,13 +26,13 @@
       >
         <div :class="$style['tab-line']"></div>
 
-        <p>
+        <p class="animation" :class="{ [$style.isRecordedTab]: item.fields.recorded }">
           {{ item.fields.title }}
         </p>
       </v-tab>
     </v-tabs>
 
-<!--
+    <!--
     <transition name="fade">
       <v-content class="mb-5" :class="$style.programTitle">
         <h1>{{ programTitle }}</h1>
@@ -43,16 +47,17 @@
         :class="{ [$style.isRecorded]: item.fields.recorded }"
       >
         <v-tab-item :key="item.fields.title" class="mx-1 my-3">
-      <v-content class="mb-5" :class="$style.programTitle">
-        <h1>{{ item.fields.title }}</h1>
-      </v-content>
+          <v-content class="mb-5" :class="$style.programTitle">
+            <h1>{{ item.fields.title }}</h1>
+            <h2>{{ item.fields.subTitle }}</h2>
+          </v-content>
           <v-content :class="[$style['tab-content']]">
+
             <v-card flat color="transparent">
-              <v-card-text :class="$style['subtitle']">
+<!--              <v-card-text :class="$style['subtitle']">
                 {{ item.fields.subTitle }}
-              </v-card-text>
+              </v-card-text>-->
               <v-card-text
-                v-if="item.fields.recorded"
                 v-html="documentToHtmlString(item.fields.programa)"
                 :class="$style['tab-content-inner']"
               >
@@ -65,6 +70,7 @@
                 class="ma-3 pa-3"
                 :class="$style['tab-cta']"
                 flat
+                :to="'/podcasts/' + item.fields.title"
               >
                 PLAY
               </v-card>
@@ -94,30 +100,30 @@ import TitleImage from "../../components/titleImage";
 export default {
   name: "program",
   components: { TitleImage },
-    head() {
-        return {
-            title: 'Programas',
-            meta: [
-                // hid is used as unique identifier. Do not use `vmid` for it as it will not work
-                {
-                    hid: "description",
-                    name: "Programas",
-                    content: "Programas | On Collaboration"
-                }
-            ],
-            link: [
-                {
-                    rel: "stylesheet",
-                    href: "https://cdn.plyr.io/3.5.6/plyr.css"
-                }
-            ]
-        };
-    },
+  head() {
+    return {
+      title: "Programas",
+      meta: [
+        // hid is used as unique identifier. Do not use `vmid` for it as it will not work
+        {
+          hid: "description",
+          name: "Programas",
+          content: "Programas | On Collaboration"
+        }
+      ],
+      link: [
+        {
+          rel: "stylesheet",
+          href: "https://cdn.plyr.io/3.5.6/plyr.css"
+        }
+      ]
+    };
+  },
   data: () => ({
     active_tab: null,
     documentToHtmlString: documentToHtmlString,
     model: 0,
-      isRadioLineShown: null
+    isRadioLineShown: null
   }),
   computed: {
     posts() {
@@ -148,15 +154,15 @@ export default {
     let slider = document.getElementsByClassName("v-tabs__slider-wrapper");
     console.log(slider);
     slider[0].appendChild(this.$refs.selector);
-        setTimeout(()=>{
-          this.isRadioLineShown = true;
-          if (this.posts.length > 0) {
-              let programTitle = this.$store.state.programa.find((item) =>{
-                  item
-              })
-          }
-            this.$store.commit("setProgramTitle");
-        }, 1000);
+    setTimeout(() => {
+      this.isRadioLineShown = true;
+      if (this.posts.length > 0) {
+        let programTitle = this.$store.state.programa.find(item => {
+          item;
+        });
+      }
+      this.$store.commit("setProgramTitle");
+    }, 1000);
   }
 };
 </script>
@@ -175,6 +181,14 @@ export default {
   .v-tabs__wrapper {
     overflow: visible !important;
     contain: inherit !important;
+  }
+
+  .v-tabs__item--active{
+    p {
+      font-size: 17px;
+      --pr: #d13b54;
+      font-weight: 600;
+    }
   }
 }
 </style>
@@ -204,10 +218,10 @@ export default {
   max-width: 600px;
   margin: 0 auto;
   background-color: white;
-  border: 10px solid var(--pr);
+  border: 5px solid var(--pr);
   font-family: "Consolas", Helvetica;
   color: var(--pr);
-  a{
+  a {
     text-decoration: none;
   }
   .tab-content-inner {
@@ -220,11 +234,11 @@ export default {
     text-align: center;
   }
   .tab-cta {
-    background-color: var(--pr);
+    background-color: var(--pr) !important;
     display: flex;
     justify-content: center;
     color: white;
-    a{
+    a {
       text-decoration: none;
     }
     &::before {
@@ -299,6 +313,8 @@ export default {
   --pr: #d13b54;
 }
 
+
+
 .tabs-style {
   position: relative;
   background: linear-gradient(
@@ -334,7 +350,7 @@ export default {
     padding-bottom: 2px;
   }
   p {
-    color: $pr;
+    color: var(--pr);
     margin: 0;
   }
   .tab-line {

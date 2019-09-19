@@ -1,5 +1,9 @@
 <template>
   <v-container :class="$style['base']">
+    <!--    <div :class="$style['tabs-line']">
+      <img src="~/assets/images/ON_arrows_tabs_line_left.svg" />
+      <img src="~/assets/images/ON_arrows_tabs_line_right.svg" />
+    </div>-->
 
     <transition name="fade">
       <div
@@ -15,7 +19,7 @@
       centered
       :center-active="true"
       :class="[$style['tabs-style']]"
-      class="mb-5"
+      class="my-5"
     >
       <v-tabs-slider> </v-tabs-slider>
 
@@ -23,15 +27,16 @@
         v-for="item in posts"
         :key="item.fields.title"
         :class="$style['tab-style']"
+
       >
         <div :class="$style['tab-line']"></div>
-        <p :class="{ [$style.isRecordedTab]: item.fields.recorded }">
+        <p>
           {{ item.fields.title }}
         </p>
       </v-tab>
     </v-tabs>
 
-    <v-tabs-items v-model="tab" class="mt-4">
+    <v-tabs-items v-model="tab" class="mt-">
       <v-content
         v-for="item in posts"
         v-if="item"
@@ -44,46 +49,51 @@
             <h1>{{ item.fields.title }}</h1>
             <h2>{{ item.fields.subTitle }}</h2>
           </v-content>
-          <v-content
-            class="mb-5"
-            :class="$style['tab-content']"
-            v-if="!item.fields.podcastsRef"
-          >
-            <v-card-text>Ver que queremos aqui</v-card-text>
-          </v-content>
-          <v-content
-            v-for="podcast in item.fields.podcastsRef"
-            :class="[$style.podcastContainer, $style['tab-content']]"
-          >
-            <audio :id="'player' + podcast.fields.id" controls>
-              {{ createPlyr(podcast.fields.id) }}
-              <source
-                :src="podcast.fields.audio[0].fields.file.url"
-                type="audio/mp3"
-              />
-            </audio>
-            <!--
-            <v-content>
-              {{ documentToHtmlString(podcast.fields.iframeContent) }}
-              {{ logPodcast(podcast.fields) }}
-            </v-content>-->
 
-            <v-card flat color="transparent">
+          <v-content v-if="!item.fields.podcastsRef > 0">
+            <div :class="$style.upperinfo" class="mb-3">
               <v-card-text :class="$style['subtitle']">
-                {{ podcast.fields.title }}
+                <p :class="$style.title">Proximamente</p>
               </v-card-text>
-              <v-card-text
-                v-if="podcast.fields.content"
-                v-html="documentToHtmlString(podcast.fields.content)"
-                :class="$style['tab-content-inner']"
-              >
+            </div>
+          </v-content>
+
+          <v-content v-for="podcast in item.fields.podcastsRef" class="mt-5">
+            <div :class="$style.upperinfo" class="mb-3">
+              <img
+                v-if="podcast.fields.icono"
+                :src="podcast.fields.icono.fields.file.url"
+              />
+              <v-card-text :class="$style['subtitle']">
+                <p :class="$style.title">{{ podcast.fields.title }}</p>
+                <p>{{ podcast.fields.subtitle }}</p>
               </v-card-text>
-            </v-card>
+              <audio v-if="podcast.fields.audio" :id="'player' + podcast.fields.id" controls>
+                {{ createPlyr(podcast.fields.id) }}
+                <source
+                  :src="podcast.fields.audio[0].fields.file.url"
+                  type="audio/mp3"
+                />
+              </audio>
+            </div>
 
-            <!--            LINE-->
-            <!--          <v-content class="my-5" :class="$style.line">-->
+            <v-content
+              :class="[$style.podcastContainer, $style['tab-content']]"
+            >
+              <v-card flat color="transparent">
+                <v-card-text
+                  v-if="podcast.fields.content"
+                  v-html="documentToHtmlString(podcast.fields.content)"
+                  :class="$style['tab-content-inner']"
+                >
+                </v-card-text>
+              </v-card>
 
-            <!--          </v-content>-->
+              <!--            LINE-->
+              <!--          <v-content class="my-5" :class="$style.line">-->
+
+              <!--          </v-content>-->
+            </v-content>
           </v-content>
         </v-tab-item>
       </v-content>
@@ -129,7 +139,7 @@ export default {
         {
           hid: "description",
           name: "Podcasts",
-          content: "Podcasts | On Collaboration"
+          content: "Podcasts | " + this.$route.params.slug
         }
       ],
       link: [
@@ -145,8 +155,8 @@ export default {
     documentToHtmlString: documentToHtmlString,
     waves: {},
     isRadioLineShown: null,
-    playpause: "play",
-      programa: null
+    programa: null,
+    playpause: "play"
   }),
   computed: {
     posts() {
@@ -155,22 +165,28 @@ export default {
     },
     title() {
       return this.$store.state.title;
+    },
+    activeTab() {
+      return this.$store.state.podcastTab;
     }
   },
   created() {
+    this.$store.dispatch("getEntriesAction", "programa");
     this.$store.commit("setTitle", "PODCASTS");
-    this.$store.commit("setHeader", true);
+    this.$store.commit("setHeader", false);
+
+    console.log(this.$route.params.slug);
   },
   mounted() {
-    // let slider = document.getElementsByClassName("v-tabs__slider-wrapper");
-    // slider[0].appendChild(this.$refs.selector);
+    let slider = document.getElementsByClassName("v-tabs__slider-wrapper");
+    slider[0].appendChild(this.$refs.selector);
 
     setTimeout(() => {
       this.isRadioLineShown = true;
-      this.programa = this.posts.find((el)=>{
-         if (el.fields.title = this.$router.params.slug) {
-             return true;
-         }
+      this.programa = this.posts.find(el => {
+        if ((el.fields.title = this.$router.params.slug)) {
+          return true;
+        }
       });
       this.tab = this.programa.id;
     }, 1000);
@@ -221,6 +237,13 @@ export default {
   .v-tabs__slider-wrapper {
   }
 }
+.v-tabs__item--active {
+  p {
+    font-size: 17px;
+    --pr: #d13b54;
+    font-weight: 600;
+  }
+}
 .v-tabs__wrapper {
   overflow: inherit !important;
   contain: inherit !important;
@@ -228,6 +251,39 @@ export default {
 </style>
 
 <style module lang="scss">
+.upperinfo {
+  max-width: 600px;
+  margin: 0 auto;
+  font-family: "Consolas", Helvetica;
+  text-align: center;
+  color: $pr;
+  font-size: 16px;
+  font-weight: 600;
+  img {
+    height: 50px;
+    margin: 0 auto;
+    @include media(ML) {
+      height: 60px;
+    }
+  }
+}
+
+.subtitle {
+  color: var(--pr);
+  font-weight: 500;
+  font-size: 16px;
+  text-align: center;
+  margin: 0 !important;
+}
+
+.title {
+  margin: 5px 0 !important;
+  color: var(--pr);
+  font-weight: 200;
+  font-size: 12px;
+  text-align: center;
+}
+
 .floating-title {
   position: fixed;
   color: $sc;
@@ -246,11 +302,16 @@ export default {
 
 .base {
   position: relative;
+  @include media(ML) {
+    padding-top: 80px;
+  }
 }
 
 .programTitle {
   text-align: center;
-  color: $sc;
+  color: var(--pr);
+  border-bottom: 1px solid var(--pr);
+  padding-bottom: 35px !important;
   h1 {
     margin: 2px 0;
   }
@@ -323,7 +384,7 @@ export default {
   background-position-x: center;
   background-size: 15px 20px;
   .v-tabs__item--active {
-    p{
+    p {
       color: var(--pr) !important;
       font-weight: bold;
       margin: 0;
@@ -396,13 +457,14 @@ export default {
   color: var(--pr);
   .tab-content-inner {
     color: var(--pr);
+    a{
+      color: var(--pr);
+      &:hover{
+        color: $sc;
+      }
+    }
   }
-  .subtitle {
-    color: var(--pr);
-    font-weight: 800;
-    font-size: 18px;
-    text-align: center;
-  }
+
   .tab-cta {
     background-color: var(--pr);
     display: flex;

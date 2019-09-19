@@ -79,9 +79,9 @@ export default {
     documentToHtmlString: documentToHtmlString,
     items: [
       { text: "Programas", link: "programas" },
-      { text: "Podcasts", link: "podcasts" },
       { text: "Eventos", link: "eventos" },
-      { text: "Open Col", link: "opencol" }
+      { text: "Open Col", link: "opencol" },
+      { text: "About", link: "about" },
     ]
   })
 };

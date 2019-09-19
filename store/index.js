@@ -1,42 +1,49 @@
-import mainService from "~/services/main-service"
+import mainService from "~/services/main-service";
 
 export const state = () => ({
   pages: [],
   posts: [],
-  post:null,
-  intro:[],
+  post: null,
+  intro: [],
+  about: [],
   programa: [],
   evento: [],
-  opencol:[],
+  opencol: [],
   loading: null,
   error: null,
   title: null,
   isHeader: true,
-  programTitle: '',
+  programTitle: ""
 });
 
 export const mutations = {
   setPages(state, payload) {
-    console.log("PAGES_MUTATION => ",payload);
+    console.log("PAGES_MUTATION => ", payload);
     state.pages = payload;
   },
-  setStateDataByType(state, payload){
-    console.log("POSTS_MUTATION => " + payload.postType + " => ",payload.data);
+  setStateDataByType(state, payload) {
+    console.log("POSTS_MUTATION => " + payload.postType + " => ", payload.data);
     let data = payload.data;
     let compare = (a, b) => {
       if (a.fields.id < b.fields.id) return -1;
       if (a.fields.id > b.fields.id) return 1;
       return 0;
     };
+    data.map((item) => {
+      console.log(item);
+      if (item.fields.podcastsRef) {
+        item.fields.podcastsRef.sort(compare);
+      }
+    });
     data.sort(compare);
-    state[payload.postType]= data;
+    state[payload.postType] = data;
   },
-  setPost(state, payload){
-    console.log("POST_MUTATION => ",payload);
+  setPost(state, payload) {
+    console.log("POST_MUTATION => ", payload);
     state.post = payload;
   },
-  setCategories(state, payload){
-    console.log("CATEGORIES.MUTATION => ",payload);
+  setCategories(state, payload) {
+    console.log("CATEGORIES.MUTATION => ", payload);
     state.categories = payload;
   },
   setLoading(state, payload) {
@@ -52,40 +59,38 @@ export const mutations = {
     state.isHeader = payload;
   },
   setProgramTitle(state, payload) {
-    if (payload){
+    if (payload) {
       state.programTitle = payload;
     } else {
       state.programTitle = state.programa[0].fields.title;
     }
-  },
+  }
 };
 
 export const actions = {
-  async getEntriesAction ({ commit }, payload) {
+  async getEntriesAction({ commit }, payload) {
     const posts = await mainService.getEntriesByType(payload);
     const data = {
       postType: payload,
       data: posts.items
     };
-    commit('setStateDataByType', data);
+    commit("setStateDataByType", data);
   },
-  async getPostId_A ({ commit }, payload) {
+  async getPostId_A({ commit }, payload) {
     const post = await mainService.getPostId_Data(payload);
-    post.data.map(post=>{
-      if(!!post._embedded['wp:featuredmedia']){
-        post.featureImage = post._embedded['wp:featuredmedia'][0];
+    post.data.map(post => {
+      if (!!post._embedded["wp:featuredmedia"]) {
+        post.featureImage = post._embedded["wp:featuredmedia"][0];
       }
     });
-    commit('setPost', post.data[0]);
+    commit("setPost", post.data[0]);
   },
-  async getCategories_A ({ commit }) {
+  async getCategories_A({ commit }) {
     const categories = await mainService.getCategories_Data();
     // set childs array
     const CATS = categories.data;
-    CATS.filter(cat=>{
-    
-    });
-    CATS.map(cat=>{
+    CATS.filter(cat => {});
+    CATS.map(cat => {
       cat.childs = [];
       if (cat.parent != 0) {
         CATS.map(parentCat => {
@@ -95,16 +100,16 @@ export const actions = {
         });
       }
     });
-    const categoriesOrdered = CATS.filter(cat=>{
+    const categoriesOrdered = CATS.filter(cat => {
       console.log(cat.name);
-      if (cat.name !== 'Uncategorized'){
+      if (cat.name !== "Uncategorized") {
         return true;
       }
     });
-    commit('setCategories', categoriesOrdered);
+    commit("setCategories", categoriesOrdered);
   },
-  async getCategory_A ({ commit }) {
+  async getCategory_A({ commit }) {
     const categories = await mainService.getCategories_Data();
-    commit('setCategories', categories.data);
-  },
+    commit("setCategories", categories.data);
+  }
 };

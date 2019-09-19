@@ -80,6 +80,17 @@ export default {
     "~assets/styles/root.scss",
     "~assets/style/app.styl"
   ],
+  
+  styleResources: {
+    scss: [
+      "assets/scss/base/_variables.scss",
+      "assets/scss/base/_medias.scss",
+      "assets/scss/helpers/_mixins.scss",
+      "assets/scss/helpers/_m-fonts.scss",
+      "assets/scss/helpers/_animations.scss"
+    ]
+  },
+  
   /*
    ** Plugins to load before mounting the App
    */
@@ -122,17 +133,7 @@ export default {
     "@nuxtjs/style-resources",
     "@nuxtjs/moment"
   ],
-
-  styleResources: {
-    scss: [
-      "assets/scss/base/_variables.scss",
-      "assets/scss/base/_medias.scss",
-      "assets/scss/helpers/_mixins.scss",
-      "assets/scss/helpers/_m-fonts.scss",
-      "assets/scss/helpers/_animations.scss"
-    ]
-  },
-
+  
   /*
    ** Build configuration
    */
@@ -152,6 +153,13 @@ export default {
     extend(config, ctx) {}
   },
   generate: {
+    routes: [
+      '/podcasts/ON01.',
+      '/podcasts/ON02.',
+      '/podcasts/ON03.',
+      '/podcasts/ON04.',
+      '/podcasts/ON05.',
+    ]
 /*    routes() {
       return Promise.all([
         // get all blog posts

@@ -2,10 +2,7 @@
   <v-container :class="$style.base">
     <v-layout column justify-center>
       <v-row :class="$style['record-row']">
-        <div :class="$style.record">
-          <!--          <a class="d-flex" href="intent://send/+34609073093#Intent;scheme=smsto;package=com.whatsapp;action=android.intent.action.SENDTO;end">
-            <img src="~/assets/images/ON-record.svg" />
-          </a>-->
+        <div :class="$style.record" class="animation">
           <a class="d-flex" href="whatsapp://send?phone=+34609073093">
             <img src="~/assets/images/ON-record.svg" />
           </a>
@@ -15,7 +12,10 @@
 
       <v-row>
         <v-card flat color="transparent" v-if="opencol">
-          <v-card-text v-html="documentToHtmlString(opencol.fields.opencol)">
+          <v-card-text
+            :class="$style['open-content']"
+            v-html="documentToHtmlString(opencol.fields.opencol)"
+          >
           </v-card-text>
         </v-card>
       </v-row>
@@ -38,7 +38,7 @@ export default {
         {
           hid: "description",
           name: "Open Call",
-          content: documentToHtmlString(opencol.fields.opencol)
+          content: documentToHtmlString("Open Call")
         }
       ]
     };
@@ -60,9 +60,58 @@ export default {
 };
 </script>
 
+<style lang="scss">
+.face:hover {
+  animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+@keyframes shake {
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%,
+  60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+</style>
+
 <style module lang="scss">
 .base {
   max-width: 700px;
+}
+
+.open-content {
+  * {
+    color: var(--pr);
+  }
+}
+
+.animation {
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition-duration: 0.2s;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-property: -webkit-transform;
+  transition-property: transform;
+  transition-property: transform, -webkit-transform;
 }
 
 .record-row {
@@ -101,10 +150,13 @@ export default {
   border-radius: 100px;
   height: 100px;
   width: 100px;
-  background-color: $sc;
+  background-color: $pr;
   display: flex;
   align-items: center;
   justify-content: center;
+  &:hover {
+    background-color: $sc;
+  }
   a {
   }
   img {

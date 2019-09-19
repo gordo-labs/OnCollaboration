@@ -45,4 +45,10 @@
 .plyr--full-ui input[type=range]{
   color:  var(--sc) !important;
 }
+.plyr--audio .plyr__control.plyr__tab-focus, .plyr--audio .plyr__control:hover, .plyr--audio .plyr__control[aria-expanded="true"]{
+  background-color: white !important;
+}
+.plyr__controls{
+  background-color: transparent !important;
+}
 

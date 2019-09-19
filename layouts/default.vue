@@ -20,7 +20,7 @@
 
     </div>
 
-    <v-footer padless :class="$style.footer">
+<!--    <v-footer padless :class="$style.footer">
         <div justify="center" no-gutters class="my-2">
           <v-btn v-for="link in links" :key="link.text" flat class="my-2">
             <a :href="link.link">
@@ -31,7 +31,7 @@
         <div class="my-2">
           <strong>On Collaboration dummy text</strong>
         </div>
-    </v-footer>
+    </v-footer>-->
   </v-content>
 </template>
 
@@ -64,7 +64,7 @@ export default {
     return {
       isLoading: false,
       links: [
-        { text: "Redes", link: "" },
+        { text: "Instagram", link: "" },
         { text: "Ivoox", link: "https://www.ivoox.com/escuchar-on-collaboration_nq_578636_1.html" },
         { text: "Itunes", link: "" },
         { text: "Spotify", link: "" }
@@ -135,7 +135,7 @@ export default {
   align-items: center;
   height: 150px !important;
   @include media(ML) {
-    display: flex;
+    display: flex !important;
   }
 }
 

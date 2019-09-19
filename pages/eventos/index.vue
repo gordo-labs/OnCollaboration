@@ -105,7 +105,7 @@ export default {
 
 .event-content {
   background-color: white;
-  border: 10px solid $pr;
+  border: 5px solid $pr;
   color: $pr;
   font-family: "Consolas", Helvetica;
   .tab-cta {

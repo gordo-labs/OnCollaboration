@@ -22,7 +22,11 @@ export default {
 .title-image-container {
   img {
     width: 35vw;
-    max-width: 200px;
+    max-width: 250px;
+    @include media(ML) {
+      max-width: 190px;
+      min-width: 200px;
+    }
   }
 }
 </style>
