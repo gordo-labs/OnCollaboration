@@ -12,40 +12,63 @@
         {{ event.fields.eventDate | moment("MM Do YYYY") }}
       </v-card-text>
       <v-content :class="$style['event-content']">
+        <v-img
+          v-if="event.fields.eventMedia"
+          :src="event.fields.eventMedia.fields.file.url"
+          lazy-src="https://picsum.photos/id/11/10/6"
+          class="grey lighten-2 mb-2"
+        ></v-img>
         <v-card-text flat color="transparent" :class="$style['event-title']">
           {{ event.fields.eventTitle }}
         </v-card-text>
         <v-card-text v-html="documentToHtmlString(event.fields.eventDesc)">
         </v-card-text>
+        <v-container class="d-flex" v-if="event.fields.images">
+          <v-img
+            v-for="image in event.fields.images"
+            :src="image.fields.file.url"
+            lazy-src="https://picsum.photos/id/11/10/6"
+            aspect-ratio="1"
+            width="100"
+            class="grey lighten-2 mr-4"
+          >
+          </v-img>
+        </v-container>
       </v-content>
 
       <v-content :class="$style.line"></v-content>
     </v-content>
+    <!--    <gallery v-if="showGallery" :items="images" :start-index="0"></gallery>-->
   </v-container>
 </template>
 
 <script>
 import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
 import TitleImage from "../../components/titleImage";
+// import gallery from "../../components/gallery";
 
 export default {
   name: "index.vue",
-  components: { TitleImage },
-    head() {
-        return {
-            title: 'Eventos',
-            meta: [
-                // hid is used as unique identifier. Do not use `vmid` for it as it will not work
-                {
-                    hid: "description",
-                    name: "Eventos",
-                    content: "Eventos | On Collaboration"
-                }
-            ],
-        };
-    },
+  components: { TitleImage,
+      // gallery
+  },
+  head() {
+    return {
+      title: "Eventos",
+      meta: [
+        // hid is used as unique identifier. Do not use `vmid` for it as it will not work
+        {
+          hid: "description",
+          name: "Eventos",
+          content: "Eventos | On Collaboration"
+        }
+      ]
+    };
+  },
   data: () => ({
-    documentToHtmlString: documentToHtmlString
+    documentToHtmlString: documentToHtmlString,
+    images: [],
+    showGallery: false
   }),
   computed: {
     events() {
@@ -56,6 +79,14 @@ export default {
     this.$store.dispatch("getEntriesAction", "evento");
     this.$store.commit("setTitle", "EVENTOS");
     this.$store.commit("setHeader", true);
+  },
+  methods: {
+    sendImages(imageUrl) {
+      this.images.push({ src: imageUrl });
+    },
+    openImageGallery(imageUrl) {
+      this.images.push({ src: imageUrl });
+    }
   }
 };
 </script>
@@ -66,7 +97,7 @@ export default {
   font-family: "Consolas", Helvetica;
   max-width: 600px;
   margin: 0 auto;
-  a{
+  a {
     color: $pr;
   }
 }

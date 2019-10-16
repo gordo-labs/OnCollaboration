@@ -58,7 +58,6 @@
           </v-content>
 
           <v-content v-for="podcast in item.fields.podcastsRef" class="mt-5">
-            {{ podcastSetCollapse(podcast) }}
             <div :class="$style.upperinfo" class="mb-3">
               <img
                 v-if="podcast.fields.icono"
@@ -83,14 +82,16 @@
 
             <v-content
               :class="[$style.podcastContainer, $style['tab-content']]"
+              class="mt-4"
             >
+              <a v-if="podcast.fields.ivooxUrl" class="ivoox-link" :href="podcast.fields.ivooxUrl" target="_blank">
+                <p>Abrir en Ivoox</p>
+              </a>
               <v-card flat color="transparent">
                 <v-card-text
                   v-if="podcast.fields.content"
                   v-html="documentToHtmlString(podcast.fields.content)"
-                  :class="[
-                    $style['tab-content-inner']
-                  ]"
+                  :class="[$style['tab-content-inner']]"
                 >
                 </v-card-text>
               </v-card>
@@ -255,6 +256,16 @@ export default {
     display: block;
   }
 }
+
+  .ivoox-link{
+    position: absolute;
+    top: -25px;
+    right: 0;
+    font-size: 10px;
+    color: var(--pr);
+    text-decoration: underline;
+    cursor: pointer;
+  }
 </style>
 
 <style module lang="scss">

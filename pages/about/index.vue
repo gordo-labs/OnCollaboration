@@ -7,6 +7,21 @@
         :class="$style.contentpiece"
         v-if="show"
       >
+        <section :class="$style['rrss-container']" class="pa-3 my-3" v-if="about[0]">
+          <div
+            :class="$style.rrss"
+            v-html="documentToHtmlString(about[0].fields.rrss)"
+          ></div>
+        </section>
+      </v-row>
+    </v-content>
+    <v-content>
+      <v-row
+        justify="center"
+        class="content init"
+        :class="$style.contentpiece"
+        v-if="show"
+      >
         <section class="on-element pa-3 my-3" v-if="about[0]">
           <div
             v-html="documentToHtmlString(about[0].fields.aboutContent)"
@@ -16,9 +31,17 @@
     </v-content>
     <v-container :class="$style['colaborators-container']">
       <div>
-        <img class="mx-1" src="~/assets/images/MADRID.png" />
-        <img class="mx-1" src="~/assets/images/RACA.png" />
-        <img class="mx-1" src="~/assets/images/ESPACIO_UCRANIA.png" />
+        <a
+          href="http://www.comunidad.madrid/centros/consejeria-cultura-turismo-deportes"
+        >
+          <img class="mx-1" src="~/assets/images/MADRID.png" />
+        </a>
+        <a href="http://raca.aq.upm.es/">
+          <img class="mx-1" src="~/assets/images/RACA.png" />
+        </a>
+        <a href="http://www.espacioucrania.com/">
+          <img class="mx-1" src="~/assets/images/ESPACIO_UCRANIA.png" />
+        </a>
       </div>
     </v-container>
   </v-container>
@@ -64,6 +87,9 @@ export default {
   align-items: center;
   flex-direction: column;
   margin-top: 50px;
+  a {
+    text-align: center;
+  }
   img {
     margin-bottom: 20px;
     max-height: 100px;
@@ -104,6 +130,26 @@ export default {
     justify-content: center;
     align-items: center;
   }
+}
+.rrss {
+  display: flex;
+  justify-content: center;
+  p {
+    font-size: 10px;
+    width: auto;
+    text-decoration: none;
+    padding: 10px 20px;
+    background-color: white;
+    border-radius: 4px;
+    margin: 0 10px;
+  }
+  a {
+    text-decoration: none;
+  }
+}
+.rrss-container{
+    background-color: transparent !important;
+    border: none !important;
 }
 .contentpiece > section {
   @include media(ML) {
@@ -147,7 +193,7 @@ export default {
 .on-element {
   padding: 10px;
   font-family: "Consolas", Helvetica !important;
-  a{
+  a {
     color: $sc;
   }
   p {
