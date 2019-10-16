@@ -83,7 +83,7 @@
                 class="ma-3 pa-3"
                 :class="$style['tab-cta']"
               >
-                OPEN CALL
+                OPEN COL
               </v-card>
             </nuxt-link>
           </v-content>
@@ -222,7 +222,8 @@ export default {
   font-family: "Consolas", Helvetica;
   color: var(--pr);
   a {
-    text-decoration: none;
+    text-decoration: underline;
+    color: var(--pr);
   }
   .tab-content-inner {
     color: var(--pr);

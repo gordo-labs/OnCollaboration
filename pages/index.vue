@@ -15,7 +15,11 @@
           :class="$style.contentpiece"
           v-if="show"
         >
-          <section class="on-element pa-3 my-3" v-if="intro[0]">
+          <section
+            class="on-element my-3"
+            v-if="intro[0]"
+            :class="{ 'pa-4': $vuetify.breakpoint.mdAndUp }"
+          >
             <div
               v-html="documentToHtmlString(intro[0].fields.introContent)"
             ></div>
@@ -31,7 +35,7 @@
       </v-content>
     </v-container>
     <v-container :class="$style['about-container']">
-      <section class="pa-3 my-1" :class="$style.referencias" v-if="intro[0]">
+      <section class="my-1" :class="$style.referencias" v-if="intro[0]">
         <div v-html="documentToHtmlString(intro[0].fields.referencias)"></div>
       </section>
       <div>
@@ -99,56 +103,66 @@ export default {
   display: none !important;
   @include media(ML) {
     display: block !important;
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0 auto;
+    max-width: 960px;
+  }
+  & > div {
+    width: 100%;
+    border-top: 2px solid $pr;
+    section {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 33%;
+      height: 50px;
+      img {
+        max-height: 50%;
+      }
+    }
+    section:first-child {
+      justify-content: flex-start;
+    }
+    section:last-child {
+      justify-content: flex-end;
+    }
+    @include media(ML) {
+      display: flex !important;
+      justify-content: center;
+      align-items: center;
+      img {
+        /*margin-bottom: 20px;*/
+        /*max-height: 100px;*/
+        /*max-width: 50%;*/
+      }
+    }
   }
 }
 
-.about-container > div {
-  width: 100%;
-  border-top: 2px solid $pr;
-  section {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 33%;
-    height: 50px;
-    img {
-      max-height: 50%;
-    }
-  }
-  section:first-child {
-    justify-content: flex-start;
-  }
-  section:last-child {
-    justify-content: flex-end;
-  }
-  @include media(ML) {
-    display: flex !important;
-    justify-content: center;
-    align-items: center;
-    img {
-      /*margin-bottom: 20px;*/
-      /*max-height: 100px;*/
-      /*max-width: 50%;*/
-    }
-  }
-}
 .title-image {
-  margin: 10px 0;
+  margin: 20px 0;
   img {
     max-height: 30vh !important;
-    max-width: 80vw;
+    max-width: 60vw;
+    margin-bottom: 40px;
     @include media(ML) {
-      max-height: 120px !important;
-      max-width: 50vw;
+      margin-bottom: 0px;
+      max-width: 190px;
+      min-width: 200px;
     }
   }
-  padding: 15px !important;
   @include media(ML) {
-    padding: 0px;
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-592.5px);
   }
 }
 
-.base{
+.base {
   @include media(ML) {
     padding-top: 100px;
     min-height: calc(100vh - 100px);
@@ -204,7 +218,6 @@ export default {
 
 <style lang="scss">
 .on-element {
-  padding: 10px;
   font-family: "Consolas", Helvetica !important;
   p {
     font-family: "Consolas", Helvetica !important;

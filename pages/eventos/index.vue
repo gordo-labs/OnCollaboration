@@ -66,6 +66,9 @@ export default {
   font-family: "Consolas", Helvetica;
   max-width: 600px;
   margin: 0 auto;
+  a{
+    color: $pr;
+  }
 }
 .line {
   background-color: $sc;

@@ -1,6 +1,5 @@
 <template>
   <v-container :class="$style['base']">
-
     <transition name="fade">
       <div
         :class="$style['tabs-line_mobile']"
@@ -55,18 +54,13 @@
             v-for="podcast in item.fields.podcastsRef"
             :class="[$style.podcastContainer, $style['tab-content']]"
           >
-            <audio :id="'player' + podcast.fields.id" controls>
+            <audio :id="'player' + podcast.fields.id" controls="controls">
               {{ createPlyr(podcast.fields.id) }}
               <source
                 :src="podcast.fields.audio[0].fields.file.url"
                 type="audio/mp3"
               />
             </audio>
-            <!--
-            <v-content>
-              {{ documentToHtmlString(podcast.fields.iframeContent) }}
-              {{ logPodcast(podcast.fields) }}
-            </v-content>-->
 
             <v-card flat color="transparent">
               <v-card-text :class="$style['subtitle']">
@@ -75,7 +69,7 @@
               <v-card-text
                 v-if="podcast.fields.content"
                 v-html="documentToHtmlString(podcast.fields.content)"
-                :class="$style['tab-content-inner']"
+                :class="[$style['tab-content-inner'], { collapsed: podcast.isCollapsed }]"
               >
               </v-card-text>
             </v-card>
@@ -146,7 +140,7 @@ export default {
     waves: {},
     isRadioLineShown: null,
     playpause: "play",
-      programa: null
+    programa: null
   }),
   computed: {
     posts() {
@@ -159,7 +153,7 @@ export default {
   },
   created() {
     this.$store.commit("setTitle", "PODCASTS");
-    this.$store.commit("setHeader", true);
+    this.$store.commit("setHeader", false);
   },
   mounted() {
     // let slider = document.getElementsByClassName("v-tabs__slider-wrapper");
@@ -167,10 +161,10 @@ export default {
 
     setTimeout(() => {
       this.isRadioLineShown = true;
-      this.programa = this.posts.find((el)=>{
-         if (el.fields.title = this.$router.params.slug) {
-             return true;
-         }
+      this.programa = this.posts.find(el => {
+        if ((el.fields.title = this.$router.params.slug)) {
+          return true;
+        }
       });
       this.tab = this.programa.id;
     }, 1000);
@@ -224,6 +218,14 @@ export default {
 .v-tabs__wrapper {
   overflow: inherit !important;
   contain: inherit !important;
+}
+.collapsed {
+  & p {
+    display: none !important;
+  }
+  & p:first-child {
+    display: block;
+  }
 }
 </style>
 
@@ -323,7 +325,7 @@ export default {
   background-position-x: center;
   background-size: 15px 20px;
   .v-tabs__item--active {
-    p{
+    p {
       color: var(--pr) !important;
       font-weight: bold;
       margin: 0;

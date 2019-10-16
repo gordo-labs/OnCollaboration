@@ -1,4 +1,9 @@
-import Vue from 'vue'
+import Vue from 'vue';
+
+
+var VueTruncate = require('vue-truncate-filter')
+Vue.use(VueTruncate);
+console.log('truncante', VueTruncate)
 
 export function timeAgo(time) {
   const between = Date.now() / 1000 - Number(time)

@@ -27,7 +27,6 @@
         v-for="item in posts"
         :key="item.fields.title"
         :class="$style['tab-style']"
-
       >
         <div :class="$style['tab-line']"></div>
         <p>
@@ -59,6 +58,7 @@
           </v-content>
 
           <v-content v-for="podcast in item.fields.podcastsRef" class="mt-5">
+            {{ podcastSetCollapse(podcast) }}
             <div :class="$style.upperinfo" class="mb-3">
               <img
                 v-if="podcast.fields.icono"
@@ -68,7 +68,11 @@
                 <p :class="$style.title">{{ podcast.fields.title }}</p>
                 <p>{{ podcast.fields.subtitle }}</p>
               </v-card-text>
-              <audio v-if="podcast.fields.audio" :id="'player' + podcast.fields.id" controls>
+              <audio
+                v-if="podcast.fields.audio"
+                :id="'player' + podcast.fields.id"
+                controls
+              >
                 {{ createPlyr(podcast.fields.id) }}
                 <source
                   :src="podcast.fields.audio[0].fields.file.url"
@@ -84,39 +88,37 @@
                 <v-card-text
                   v-if="podcast.fields.content"
                   v-html="documentToHtmlString(podcast.fields.content)"
-                  :class="$style['tab-content-inner']"
+                  :class="[
+                    $style['tab-content-inner'],
+                    { collapsed: podcastState(podcast) }
+                  ]"
                 >
                 </v-card-text>
+                <v-card-text
+                  class="pt-0"
+                  v-if="podcastState(podcast)"
+                >
+                  ...
+                  {{ podcastState(podcast) }}
+                </v-card-text>
+                <div
+                  class="pt-0"
+                  :class="$style.collapseIcon"
+                  v-on:click="isCollapsed(podcast)"
+                >
+                  <v-icon v-if="!podcastState(podcast)"
+                    >keyboard_arrow_up</v-icon
+                  >
+                  <v-icon v-if="podcastState(podcast)"
+                    >keyboard_arrow_down</v-icon
+                  >
+                </div>
               </v-card>
-
-              <!--            LINE-->
-              <!--          <v-content class="my-5" :class="$style.line">-->
-
-              <!--          </v-content>-->
             </v-content>
           </v-content>
         </v-tab-item>
       </v-content>
     </v-tabs-items>
-
-    <!--
-
-    <iframe
-      :class="$style.ivooxElement"
-      id="audio_38494735"
-      frameborder="0"
-      allowfullscreen="no"
-      scrolling="no"
-      height="200"
-      style="border:1px solid #EEE; box-sizing:border-box; width:100%;"
-      src="https://www.ivoox.com/player_ej_38494735_4_1.html"
-    ></iframe>
--->
-
-    <!--
-    <wave-audio input="http://podcastcdn-23.ivoox.com/audio/5/3/7/4/on0101historiascolaboracion-oncollaboration-ivoox38494735.mp3?secure=nSFcR_9-hjJbDfTfD54DmQ==,1568313895">
-    </wave-audio>
--->
   </v-container>
 </template>
 
@@ -156,7 +158,8 @@ export default {
     waves: {},
     isRadioLineShown: null,
     programa: null,
-    playpause: "play"
+    playpause: "play",
+    podcastsState: []
   }),
   computed: {
     posts() {
@@ -174,7 +177,6 @@ export default {
     this.$store.dispatch("getEntriesAction", "programa");
     this.$store.commit("setTitle", "PODCASTS");
     this.$store.commit("setHeader", false);
-
     console.log(this.$route.params.slug);
   },
   mounted() {
@@ -196,6 +198,19 @@ export default {
       this.$nextTick(() => {
         this.plyr = new this.$plyr("#player" + id);
       });
+    },
+    podcastSetCollapse(podcast) {
+      this["podcastState" + podcast.fields.id] = true;
+    },
+    isCollapsed(podcast) {
+      console.log(this["podcastState" + podcast.fields.id]);
+      console.log(this);
+      this["podcastState" + podcast.fields.id] = !this[
+        "podcastState" + podcast.fields.id
+      ];
+    },
+    podcastState(podcast) {
+      return this["podcastState" + podcast.fields.id];
     },
     logPodcast(podcast) {
       console.log("PODCASTS = >", podcast);
@@ -248,9 +263,47 @@ export default {
   overflow: inherit !important;
   contain: inherit !important;
 }
+
+.collapsed {
+  & p {
+    display: none;
+  }
+  & p:first-child {
+    display: block;
+  }
+  & p:nth-child(2) {
+    display: block;
+  }
+}
 </style>
 
 <style module lang="scss">
+.collapseIcon {
+  cursor: pointer;
+  background-color: white;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border-radius: 20px !important;
+  position: absolute;
+  bottom: -23px;
+  border: 4px solid var(--pr);
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  transform: translateX(-50%);
+  p {
+    font-size: 9px;
+    margin: 5px 0px;
+    display: none;
+  }
+  i {
+    color: var(--pr) !important;
+    margin-top: 3px;
+  }
+}
 .upperinfo {
   max-width: 600px;
   margin: 0 auto;
@@ -457,9 +510,9 @@ export default {
   color: var(--pr);
   .tab-content-inner {
     color: var(--pr);
-    a{
+    a {
       color: var(--pr);
-      &:hover{
+      &:hover {
         color: $sc;
       }
     }
