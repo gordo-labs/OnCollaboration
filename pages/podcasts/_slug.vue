@@ -89,30 +89,10 @@
                   v-if="podcast.fields.content"
                   v-html="documentToHtmlString(podcast.fields.content)"
                   :class="[
-                    $style['tab-content-inner'],
-                    { collapsed: podcastState(podcast) }
+                    $style['tab-content-inner']
                   ]"
                 >
                 </v-card-text>
-                <v-card-text
-                  class="pt-0"
-                  v-if="podcastState(podcast)"
-                >
-                  ...
-                  {{ podcastState(podcast) }}
-                </v-card-text>
-                <div
-                  class="pt-0"
-                  :class="$style.collapseIcon"
-                  v-on:click="isCollapsed(podcast)"
-                >
-                  <v-icon v-if="!podcastState(podcast)"
-                    >keyboard_arrow_up</v-icon
-                  >
-                  <v-icon v-if="podcastState(podcast)"
-                    >keyboard_arrow_down</v-icon
-                  >
-                </div>
               </v-card>
             </v-content>
           </v-content>
