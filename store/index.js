@@ -12,7 +12,7 @@ export const state = () => ({
   loading: null,
   error: null,
   title: null,
-  isHeader: true,
+  isHeader: false,
   programTitle: ""
 });
 

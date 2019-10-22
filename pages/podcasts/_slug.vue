@@ -269,6 +269,7 @@ export default {
 </style>
 
 <style module lang="scss">
+
 .collapseIcon {
   cursor: pointer;
   background-color: white;

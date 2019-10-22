@@ -7,14 +7,20 @@
         :class="$style.contentpiece"
         v-if="show"
       >
-        <section :class="$style['rrss-container']" class="pa-3 my-3" v-if="about[0]">
+        <section
+          :class="$style['rrss-container']"
+          class="pa-3 my-3"
+          v-if="about[0]"
+        >
           <div
             :class="$style.rrss"
             v-html="documentToHtmlString(about[0].fields.rrss)"
           ></div>
         </section>
+
       </v-row>
     </v-content>
+
     <v-content>
       <v-row
         justify="center"
@@ -31,9 +37,7 @@
     </v-content>
     <v-container :class="$style['colaborators-container']">
       <div>
-        <a
-          href="http://www.comunidad.madrid/centros/consejeria-cultura-turismo-deportes"
-        >
+        <a href="http://www.comunidad.madrid/centros/consejeria-cultura-turismo-deportes">
           <img class="mx-1" src="~/assets/images/MADRID.png" />
         </a>
         <a href="http://raca.aq.upm.es/">
@@ -147,9 +151,9 @@ export default {
     text-decoration: none;
   }
 }
-.rrss-container{
-    background-color: transparent !important;
-    border: none !important;
+.rrss-container {
+  background-color: transparent !important;
+  border: none !important;
 }
 .contentpiece > section {
   @include media(ML) {

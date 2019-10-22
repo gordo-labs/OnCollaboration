@@ -8,6 +8,7 @@
           @click="infoPanel = !infoPanel"
         />
       </v-content>
+
       <v-content>
         <v-row
           justify="center"
@@ -25,15 +26,41 @@
             ></div>
           </section>
         </v-row>
+      </v-content>
+
+      <v-content>
+        <nuxt-link to="/programas">
+        <section class="mapas">
+          <img class="map-mobile" src="~/assets/images/mapas/ON_COL_mapa-mobile.svg">
+          <img
+            class="map-desktop"
+            src="~/assets/images/mapas/ON-COL_mapa.svg"
+          />
+        </section>
+        </nuxt-link>
+      </v-content>
+
+      <v-content>
         <v-row
           justify="center"
           class="content init"
+          :class="$style.contentpiece"
           v-if="show"
-          :class="$style.contentpiece2"
         >
+          <section
+            class="on-element my-3"
+            v-if="intro[0]"
+            :class="{ 'pa-4': $vuetify.breakpoint.mdAndUp }"
+          >
+            <div
+              v-html="documentToHtmlString(intro[0].fields.listaProgramas)"
+            ></div>
+          </section>
         </v-row>
       </v-content>
+
     </v-container>
+
     <v-container :class="$style['about-container']">
       <section class="my-1" :class="$style.referencias" v-if="intro[0]">
         <div v-html="documentToHtmlString(intro[0].fields.referencias)"></div>
@@ -54,14 +81,16 @@
 </template>
 
 <script>
-import TitleImage from "../components/titleImage";
+import TitleImage from "~/components/titleImage";
+import Mapas from "~/components/mapas";
 import navigation from "~/components/navigation";
 import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
 
 export default {
   components: {
     TitleImage,
-    navigation
+    navigation,
+    Mapas
   },
   data: () => {
     return {
@@ -98,17 +127,47 @@ export default {
 };
 </script>
 
+<style lang="scss">
+
+.mapas {
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  transform: translateX(-50%);
+  @include media(ML) {
+    width: 80vw;
+  }
+.map-mobile {
+    width: 100vw;
+    margin-bottom: 30px;
+  padding: 0 10px;
+  @include media(ML) {
+    display: none;
+  }
+  }
+  .map-desktop {
+    border: none;
+    width: 100%;
+    display: none;
+    margin-bottom: 30px;
+    @include media(ML) {
+      display: block;
+    }
+  }
+}
+</style>
+
 <style lang="scss" module>
 .about-container {
   display: none !important;
   @include media(ML) {
+    margin: 50px auto 0px auto;
     display: block !important;
-    position: fixed;
+    /*    position: fixed;
     bottom: 0;
     left: 50%;
-    transform: translateX(-50%);
-    margin: 0 auto;
-    max-width: 960px;
+    transform: translateX(-50%);*/
+    /*max-width: 960px;*/
   }
   & > div {
     width: 100%;
@@ -155,7 +214,7 @@ export default {
     }
   }
   @include media(ML) {
-    position: fixed;
+    position: absolute;
     top: 20px;
     left: 50%;
     transform: translateX(-592.5px);
@@ -169,7 +228,6 @@ export default {
   }
 }
 .indexContent {
-  max-width: 600px;
   @include media(ML) {
     padding-top: 100px;
     display: flex;
@@ -179,7 +237,9 @@ export default {
   }
 }
 .contentpiece > section {
+  max-width: 600px;
   @include media(ML) {
+  width: 600px;
     background-color: white;
     border: 5px solid var(--pr);
     font-family: "Consolas", Helvetica;

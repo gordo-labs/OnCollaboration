@@ -20,23 +20,16 @@
 
     </div>
 
-<!--    <v-footer padless :class="$style.footer">
-        <div justify="center" no-gutters class="my-2">
-          <v-btn v-for="link in links" :key="link.text" flat class="my-2">
-            <a :href="link.link">
-              {{ link.text }}
-            </a>
-          </v-btn>
-        </div>
-        <div class="my-2">
-          <strong>On Collaboration dummy text</strong>
-        </div>
-    </v-footer>-->
+    <footer>
+
+    </footer>
+
   </v-content>
 </template>
 
 <script>
 // set virtual height
+import Footer from "../components/footer";
 let vh = window.innerHeight * 0.01;
 document.documentElement.style.setProperty("--vh", `${vh}px`);
 console.log("VIRTUAL HEIGHT UNIT => ", vh);
@@ -56,6 +49,7 @@ import navigation from "~/components/navigation";
 
 export default {
   components: {
+      Footer,
     TitleImage,
     onLoader,
     navigation
@@ -68,7 +62,7 @@ export default {
         { text: "Ivoox", link: "https://www.ivoox.com/escuchar-on-collaboration_nq_578636_1.html" },
         { text: "Itunes", link: "" },
         { text: "Spotify", link: "" }
-      ]
+      ],
     };
   },
   created() {
