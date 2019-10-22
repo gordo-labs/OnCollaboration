@@ -88,7 +88,7 @@
             </nuxt-link>
           </v-content>
 
-          <!-- PODCASTS -->ç
+          <!-- PODCASTS -->
 
           <v-content :class="$style.podcasts" v-if="item.fields.podcastsRef">
 

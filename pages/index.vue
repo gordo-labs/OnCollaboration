@@ -31,10 +31,10 @@
       <v-content>
         <nuxt-link to="/programas">
         <section class="mapas">
-          <img class="map-mobile" src="~/assets/images/mapas/ON_COL_mapa-mobile.svg">
+          <img class="map-mobile" src="~/assets/images/mapas/ON_COL_mapa-mobile.png">
           <img
             class="map-desktop"
-            src="~/assets/images/mapas/ON-COL_mapa.svg"
+            src="~/assets/images/mapas/ON_COL_mapa.png"
           />
         </section>
         </nuxt-link>
