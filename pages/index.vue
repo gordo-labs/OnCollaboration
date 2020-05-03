@@ -40,16 +40,15 @@
         </nuxt-link>
       </v-content>
 
-      <v-content>
+<!--      <v-content>
         <v-row
           justify="center"
           class="content init"
           :class="$style.contentpiece"
-          v-if="show"
+            v-if="intro[0].fields.listaProgramas"
         >
           <section
             class="on-element my-3"
-            v-if="intro[0]"
             :class="{ 'pa-4': $vuetify.breakpoint.mdAndUp }"
           >
             <div
@@ -57,7 +56,7 @@
             ></div>
           </section>
         </v-row>
-      </v-content>
+      </v-content>-->
 
     </v-container>
 

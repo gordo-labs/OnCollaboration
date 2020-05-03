@@ -100,6 +100,7 @@ export default {
     "~/plugins/moment.js",
     "~/plugins/vue-audio-visual.js",
     "~/plugins/axios",
+    "~/plugins/mailchimp",
     "~/plugins/mixins",
   ],
   axios: {

@@ -1,7 +1,6 @@
 <template>
   <v-content :class="$style.base">
     <div :class="$style.main" class="pb-5">
-
       <on-loader :isLoading="isLoading" class="loader"></on-loader>
 
       <transition name="fade">
@@ -17,13 +16,9 @@
       <nuxt :class="$style['main-content']" />
 
       <navigation ref="navBar"></navigation>
-
     </div>
 
-    <footer>
-
-    </footer>
-
+    <footer></footer>
   </v-content>
 </template>
 
@@ -47,22 +42,49 @@ import TitleImage from "../components/titleImage";
 import onLoader from "~/components/onLoader";
 import navigation from "~/components/navigation";
 
+const data = () => {
+  window.dojoRequire(["mojo/signup-forms/Loader"], function(L) {
+    L.start({
+      baseUrl: "mc.us20.list-manage.com",
+      uuid: "b43bf9db8633eada31f656189",
+      lid: "8d85b9ca6e",
+      uniqueMethods: true
+    });
+  });
+};
+
 export default {
   components: {
-      Footer,
+    Footer,
     TitleImage,
     onLoader,
     navigation
   },
+  head: {
+    // title: "Blog | " + this.$route.params.slug
+    script: [
+      {
+        type: "text/javascript",
+        src:
+          "//downloads.mailchimp.com/js/signup-forms/popup/unique-methods/embed.js",
+        ["data-dojo-config"]: "usePlainJson: true, isDebug: false"
+      }
+    ]
+  },
+
   data: () => {
     return {
       isLoading: false,
       links: [
         { text: "Instagram", link: "" },
-        { text: "Ivoox", link: "https://www.ivoox.com/escuchar-on-collaboration_nq_578636_1.html" },
+        {
+          text: "Ivoox",
+          link:
+            "https://www.ivoox.com/escuchar-on-collaboration_nq_578636_1.html"
+        },
         { text: "Itunes", link: "" },
         { text: "Spotify", link: "" }
-      ],
+      ]
     };
   },
   created() {
@@ -74,6 +96,7 @@ export default {
       .catch(err => {
         this.$store.commit("setError", true);
       });
+    this.mailchimp();
   },
   computed: {
     title() {
@@ -104,6 +127,16 @@ export default {
       console.log("navbarHeight > ", height);
       document.documentElement.style.setProperty("--navBarHeight", `${50}px`);
       return height;
+    },
+    mailchimp() {
+      window.dojoRequire(["mojo/signup-forms/Loader"], function(L) {
+        L.start({
+          baseUrl: "mc.us20.list-manage.com",
+          uuid: "b43bf9db8633eada31f656189",
+          lid: "8d85b9ca6e",
+          uniqueMethods: true
+        });
+      });
     }
   }
 };
@@ -160,7 +193,6 @@ export default {
 </style>
 
 <style lang="scss">
-
 @import "@/assets/scss/working.scss";
 
 h1,
@@ -180,5 +212,4 @@ span {
 .v-list__tile__title {
   font-family: "Consolas", Helvetica;
 }
-
 </style>

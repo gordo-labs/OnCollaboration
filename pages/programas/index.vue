@@ -227,28 +227,6 @@ export default {
       logPodcast(podcast) {
           console.log("PODCASTS = >", podcast);
       },
-      createWave(id, url) {
-          console.log(id, url);
-          this.$nextTick(() => {
-              this.waves[id] = this.$wavesurfer.create({
-                  container: "#" + "wave" + id,
-                  waveColor: "#D13B54",
-                  progressColor: "#4c4885"
-              });
-              this.waves[id].load(url);
-          });
-      },
-      wavePlay(id) {
-          this.waves[id].playPause();
-          if (this.playpause === "play") {
-              this.playpause = "pause";
-          } else {
-              this.playpause = "play";
-          }
-      },
-      waveStop(id) {
-          this.waves[id].stop();
-      }
   },
   mounted() {
     let slider = document.getElementsByClassName("v-tabs__slider-wrapper");
