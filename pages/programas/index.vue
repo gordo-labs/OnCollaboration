@@ -15,7 +15,6 @@
       :center-active="true"
       :class="$style['tabs-style']"
     >
-
       <v-tabs-slider> </v-tabs-slider>
 
       <v-tab
@@ -26,7 +25,10 @@
       >
         <div :class="$style['tab-line']"></div>
 
-        <p class="animation" :class="{ [$style.isRecordedTab]: item.fields.recorded }">
+        <p
+          class="animation"
+          :class="{ [$style.isRecordedTab]: item.fields.recorded }"
+        >
           {{ item.fields.title }}
         </p>
       </v-tab>
@@ -52,9 +54,8 @@
             <h2>{{ item.fields.subTitle }}</h2>
           </v-content>
           <v-content :class="[$style['tab-content']]">
-
             <v-card flat color="transparent">
-<!--              <v-card-text :class="$style['subtitle']">
+              <!--              <v-card-text :class="$style['subtitle']">
                 {{ item.fields.subTitle }}
               </v-card-text>-->
               <v-card-text
@@ -64,7 +65,7 @@
               </v-card-text>
             </v-card>
 
-<!--            <nuxt-link :to="'/' + 'programas'">
+            <!--            <nuxt-link :to="'/' + 'programas'">
               <v-card
                 v-if="item.fields.recorded"
                 class="ma-3 pa-3"
@@ -91,56 +92,56 @@
           <!-- PODCASTS -->
 
           <v-content :class="$style.podcasts" v-if="item.fields.podcastsRef">
+            <v-content class="my-5" :class="$style.programTitle">
+              <h1>PODCASTS</h1>
+            </v-content>
 
-          <v-content class="my-5" :class="$style.programTitle">
-            <h1>PODCASTS</h1>
-          </v-content>
-
-          <v-content v-for="podcast in item.fields.podcastsRef" class="mt-5">
-
-
-            <div :class="$style.upperinfo" class="mb-3">
-              <img
-                v-if="podcast.fields.icono"
-                :src="podcast.fields.icono.fields.file.url"
-              />
-              <v-card-text :class="$style['subtitle']">
-                <p :class="$style.title">{{ podcast.fields.title }}</p>
-                <p>{{ podcast.fields.subtitle }}</p>
-              </v-card-text>
-              <audio
-                v-if="podcast.fields.audio"
-                :id="'player' + podcast.fields.id"
-                controls
-              >
-                {{ createPlyr(podcast.fields.id) }}
-                <source
-                  :src="podcast.fields.audio[0].fields.file.url"
-                  type="audio/mp3"
+            <v-content v-for="podcast in item.fields.podcastsRef" class="mt-5">
+              <div :class="$style.upperinfo" class="mb-3">
+                <img
+                  v-if="podcast.fields.icono"
+                  :src="podcast.fields.icono.fields.file.url"
                 />
-              </audio>
-            </div>
-
-            <v-content
-              :class="[$style.podcastContainer, $style['tab-content']]"
-              class="mt-4"
-            >
-              <a v-if="podcast.fields.ivooxUrl" :class="$style['ivoox-link']" :href="podcast.fields.ivooxUrl" target="_blank">
-                <p>Abrir en Ivoox</p>
-              </a>
-              <v-card flat color="transparent">
-                <v-card-text
-                  v-if="podcast.fields.content"
-                  v-html="documentToHtmlString(podcast.fields.content)"
-                  :class="[$style['tab-content-inner']]"
-                >
+                <v-card-text :class="$style['subtitle']">
+                  <p :class="$style.title">{{ podcast.fields.title }}</p>
+                  <p>{{ podcast.fields.subtitle }}</p>
                 </v-card-text>
-              </v-card>
+                <audio
+                  v-if="podcast.fields.audio"
+                  :id="'player' + podcast.fields.id"
+                  controls
+                >
+                  {{ createPlyr(podcast.fields.id) }}
+                  <source
+                    :src="podcast.fields.audio[0].fields.file.url"
+                    type="audio/mp3"
+                  />
+                </audio>
+              </div>
+
+              <v-content
+                :class="[$style.podcastContainer, $style['tab-content']]"
+                class="mt-4"
+              >
+                <a
+                  v-if="podcast.fields.ivooxUrl"
+                  :class="$style['ivoox-link']"
+                  :href="podcast.fields.ivooxUrl"
+                  target="_blank"
+                >
+                  <p>Abrir en Ivoox</p>
+                </a>
+                <v-card flat color="transparent">
+                  <v-card-text
+                    v-if="podcast.fields.content"
+                    v-html="documentToHtmlString(podcast.fields.content)"
+                    :class="[$style['tab-content-inner']]"
+                  >
+                  </v-card-text>
+                </v-card>
+              </v-content>
             </v-content>
           </v-content>
-          </v-content>
-
-
         </v-tab-item>
       </v-content>
     </v-tabs-items>
@@ -178,9 +179,9 @@ export default {
     documentToHtmlString: documentToHtmlString,
     model: 0,
     isRadioLineShown: null,
-      programa: null,
-      playpause: "play",
-      podcastsState: []
+    programa: null,
+    playpause: "play",
+    podcastsState: []
   }),
   computed: {
     posts() {
@@ -206,27 +207,27 @@ export default {
     sendTab(title) {
       this.$store.commit("setProgramTitle", title);
     },
-      createPlyr(id) {
-          this.$nextTick(() => {
-              this.plyr = new this.$plyr("#player" + id);
-          });
-      },
-      podcastSetCollapse(podcast) {
-          this["podcastState" + podcast.fields.id] = true;
-      },
-      isCollapsed(podcast) {
-          console.log(this["podcastState" + podcast.fields.id]);
-          console.log(this);
-          this["podcastState" + podcast.fields.id] = !this[
-          "podcastState" + podcast.fields.id
-              ];
-      },
-      podcastState(podcast) {
-          return this["podcastState" + podcast.fields.id];
-      },
-      logPodcast(podcast) {
-          console.log("PODCASTS = >", podcast);
-      },
+    createPlyr(id) {
+      this.$nextTick(() => {
+        this.plyr = new this.$plyr("#player" + id);
+      });
+    },
+    podcastSetCollapse(podcast) {
+      this["podcastState" + podcast.fields.id] = true;
+    },
+    isCollapsed(podcast) {
+      console.log(this["podcastState" + podcast.fields.id]);
+      console.log(this);
+      this["podcastState" + podcast.fields.id] = !this[
+        "podcastState" + podcast.fields.id
+      ];
+    },
+    podcastState(podcast) {
+      return this["podcastState" + podcast.fields.id];
+    },
+    logPodcast(podcast) {
+      console.log("PODCASTS = >", podcast);
+    }
   },
   mounted() {
     let slider = document.getElementsByClassName("v-tabs__slider-wrapper");
@@ -241,8 +242,7 @@ export default {
       }
       this.$store.commit("setProgramTitle");
     }, 1000);
-  },
-
+  }
 };
 </script>
 
@@ -262,7 +262,7 @@ export default {
     contain: inherit !important;
   }
 
-  .v-tabs__item--active{
+  .v-tabs__item--active {
     p {
       font-size: 17px;
       --pr: #d13b54;
@@ -390,8 +390,6 @@ export default {
   --pr: #d13b54;
 }
 
-
-
 .tabs-style {
   position: relative;
   background: linear-gradient(
@@ -446,17 +444,16 @@ export default {
   padding-bottom: 20px;
 }
 
-
 // podcast
 
 .podcasts {
   --pr: #4c4885;
 
-  .programTitle{
+  .programTitle {
     /*border-top: 1px solid var(--pr);*/
   }
 
-  .ivoox-link{
+  .ivoox-link {
     position: absolute;
     top: -25px;
     right: 0;
@@ -660,12 +657,12 @@ export default {
   .tabs-style {
     position: relative;
     background: linear-gradient(
-        to right,
-        rgba(255, 255, 255, 0) 10%,
-        rgba(255, 255, 255, 0.8) 26%,
-        rgba(255, 255, 255, 0.9) 50%,
-        rgba(255, 255, 255, 0.8) 74%,
-        rgba(255, 255, 255, 0) 90%
+      to right,
+      rgba(255, 255, 255, 0) 10%,
+      rgba(255, 255, 255, 0.8) 26%,
+      rgba(255, 255, 255, 0.9) 50%,
+      rgba(255, 255, 255, 0.8) 74%,
+      rgba(255, 255, 255, 0) 90%
     );
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#00ffffff',GradientType=1 );
     .v-tabs__div {
@@ -720,7 +717,4 @@ export default {
     }
   }
 }
-
-
-
 </style>

@@ -28,17 +28,21 @@
         </v-row>
       </v-content>
 
-      <v-content>
+      <v-content v-if="intro[0]">
         <nuxt-link to="/programas">
         <section class="mapas">
-          <img class="map-mobile" src="~/assets/images/mapas/ON_COL_mapa-mobile.png">
+          <img class="map-mobile"
+               :src="intro[0].fields.introImageMobile.fields.file.url"
+          >
+
           <img
             class="map-desktop"
-            src="~/assets/images/mapas/ON_COL_mapa.png"
+            :src="intro[0].fields.introImage.fields.file.url"
           />
         </section>
         </nuxt-link>
       </v-content>
+
 
 <!--      <v-content>
         <v-row
@@ -100,6 +104,7 @@ export default {
   },
   created() {
     this.$store.dispatch("getEntriesAction", "intro");
+    this.$store.dispatch("getEntriesAction", "programa");
     this.$store.commit("setTitle", null);
     this.$store.commit("setHeader", false);
   },

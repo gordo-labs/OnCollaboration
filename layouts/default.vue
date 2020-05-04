@@ -64,10 +64,6 @@ export default {
     // title: "Blog | " + this.$route.params.slug
     script: [
       {
-        type: "text/javascript",
-        src:
-          "//downloads.mailchimp.com/js/signup-forms/popup/unique-methods/embed.js",
-        ["data-dojo-config"]: "usePlainJson: true, isDebug: false"
       }
     ]
   },

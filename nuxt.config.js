@@ -62,6 +62,10 @@ export default {
     ],
     script: [
       {
+        type: "text/javascript",
+        src:
+          "//downloads.mailchimp.com/js/signup-forms/popup/unique-methods/embed.js",
+        ["data-dojo-config"]: "usePlainJson: true, isDebug: false"
       }
     ]
   },
@@ -80,7 +84,7 @@ export default {
     "~assets/styles/root.scss",
     "~assets/style/app.styl"
   ],
-  
+
   styleResources: {
     scss: [
       "assets/scss/base/_variables.scss",
@@ -90,7 +94,7 @@ export default {
       "assets/scss/helpers/_animations.scss"
     ]
   },
-  
+
   /*
    ** Plugins to load before mounting the App
    */
@@ -134,7 +138,7 @@ export default {
     "@nuxtjs/style-resources",
     "@nuxtjs/moment"
   ],
-  
+
   /*
    ** Build configuration
    */
