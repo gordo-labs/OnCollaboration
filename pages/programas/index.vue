@@ -123,14 +123,32 @@
                 :class="[$style.podcastContainer, $style['tab-content']]"
                 class="mt-4"
               >
-                <a
-                  v-if="podcast.fields.ivooxUrl"
-                  :class="$style['ivoox-link']"
-                  :href="podcast.fields.ivooxUrl"
-                  target="_blank"
-                >
-                  <p>Abrir en Ivoox</p>
-                </a>
+                <div :class="$style['links-container']">
+                  <a
+                    v-if="podcast.fields.itunesUrl"
+                    :class="$style['ivoox-link']"
+                    :href="podcast.fields.itunesUrl"
+                    target="_blank"
+                  >
+                    <p>Itunes</p>
+                  </a>
+                  <a
+                    v-if="podcast.fields.ivooxUrl"
+                    :class="$style['ivoox-link']"
+                    :href="podcast.fields.ivooxUrl"
+                    target="_blank"
+                  >
+                    <p>Ivoox</p>
+                  </a>
+                  <a
+                    v-if="podcast.fields.spotifyUrl"
+                    :class="$style['ivoox-link']"
+                    :href="podcast.fields.spotifyUrl"
+                    target="_blank"
+                  >
+                    <p>Spotify</p>
+                  </a>
+                </div>
                 <v-card flat color="transparent">
                   <v-card-text
                     v-if="podcast.fields.content"
@@ -453,14 +471,20 @@ export default {
     /*border-top: 1px solid var(--pr);*/
   }
 
-  .ivoox-link {
+  .links-container{
+    width: 100%;
     position: absolute;
     top: -25px;
-    right: 0;
+    justify-content: flex-end;
+    display: flex;
+  }
+
+  .ivoox-link {
     font-size: 10px;
     color: var(--pr);
     text-decoration: underline;
     cursor: pointer;
+    padding-left: 10px;
   }
 
   .collapseIcon {
