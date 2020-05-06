@@ -106,6 +106,7 @@
                   <p :class="$style.title">{{ podcast.fields.title }}</p>
                   <p>{{ podcast.fields.subtitle }}</p>
                 </v-card-text>
+
                 <audio
                   v-if="podcast.fields.audio"
                   :id="'player' + podcast.fields.id"
@@ -114,6 +115,17 @@
                   {{ createPlyr(podcast.fields.id) }}
                   <source
                     :src="podcast.fields.audio[0].fields.file.url"
+                    type="audio/mp3"
+                  />
+                </audio>
+                <audio
+                  v-else-if="podcast.fields.googleDriveUrl"
+                  :id="'player' + podcast.fields.id"
+                  controls
+                >
+                  {{ createPlyr(podcast.fields.id) }}
+                  <source
+                    :src="podcast.fields.googleDriveUrl"
                     type="audio/mp3"
                   />
                 </audio>
@@ -471,7 +483,7 @@ export default {
     /*border-top: 1px solid var(--pr);*/
   }
 
-  .links-container{
+  .links-container {
     width: 100%;
     position: absolute;
     top: -25px;
