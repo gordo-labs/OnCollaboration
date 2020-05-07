@@ -1,43 +1,6 @@
 <template>
-  <v-container :class="$style['base']">
-    <!--    <div :class="$style['tabs-line']">
-      <img src="~/assets/images/ON_arrows_tabs_line_left.svg" />
-      <img src="~/assets/images/ON_arrows_tabs_line_right.svg" />
-    </div>-->
 
-    <transition name="fade">
-      <div
-        :class="$style['tabs-line_mobile']"
-        ref="selector"
-        v-show="isRadioLineShown"
-      ></div>
-    </transition>
-
-    <v-tabs
-      v-model="tab"
-      color="transparent"
-      centered
-      :center-active="true"
-      :class="[$style['tabs-style']]"
-      class="my-5"
-    >
-      <v-tabs-slider> </v-tabs-slider>
-
-      <v-tab
-        v-for="item in posts"
-        :key="item.fields.title"
-        :class="$style['tab-style']"
-      >
-        <div :class="$style['tab-line']"></div>
-        <p>
-          {{ item.fields.title }}
-        </p>
-      </v-tab>
-    </v-tabs>
-
-    <v-tabs-items v-model="tab" class="mt-">
       <v-content
-        v-for="item in posts"
         v-if="item"
         :class="{ [$style.isRecorded]: item.fields.recorded }"
       >
@@ -99,8 +62,7 @@
           </v-content>
         </v-tab-item>
       </v-content>
-    </v-tabs-items>
-  </v-container>
+
 </template>
 
 <script>

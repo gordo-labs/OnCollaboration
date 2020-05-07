@@ -159,11 +159,11 @@ export default {
   },
   generate: {
     routes: [
-      '/podcasts/ON01.',
-      '/podcasts/ON02.',
-      '/podcasts/ON03.',
-      '/podcasts/ON04.',
-      '/podcasts/ON05.',
+      '/programas/ON01.',
+      '/programas/ON02.',
+      '/programas/ON03.',
+      '/programas/ON04.',
+      '/programas/ON05.',
     ]
 /*    routes() {
       return Promise.all([

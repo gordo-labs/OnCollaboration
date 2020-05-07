@@ -7,6 +7,7 @@ export const state = () => ({
   intro: [],
   about: [],
   programa: [],
+  selectedPrograma: null,
   evento: [],
   opencol: [],
   loading: null,
@@ -30,7 +31,7 @@ export const mutations = {
       return 0;
     };
     data.map((item) => {
-      console.log(item);
+      // console.log(item);
       if (item.fields.podcastsRef) {
         item.fields.podcastsRef.sort(compare);
       }
@@ -64,6 +65,17 @@ export const mutations = {
     } else {
       state.programTitle = state.programa[0].fields.title;
     }
+  },
+  findSelectedProgram(state, payload) {
+    state.selectedPrograma = state.programa.find(el=>{
+      if (el.fields.title === payload) {
+        return el;
+      }
+    })
+  },
+  setSelectedProgram(state, payload) {
+    console.log("SELECTED_PROGRAMA => ", payload);
+    state.selectedPrograma = payload;
   }
 };
 
@@ -75,6 +87,12 @@ export const actions = {
       data: posts.items
     };
     commit("setStateDataByType", data);
+    commit("setSelectedProgram", posts.items[0]);
+  },
+  async getEntry({ commit }, payload) {
+    const post = await mainService.getEntry(payload);
+    // console.log('GET_ENTRY',post);
+    commit("setSelectedProgram", post);
   },
   async getPostId_A({ commit }, payload) {
     const post = await mainService.getPostId_Data(payload);

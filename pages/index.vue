@@ -30,21 +30,21 @@
 
       <v-content v-if="intro[0]">
         <nuxt-link to="/programas">
-        <section class="mapas">
-          <img class="map-mobile"
-               :src="intro[0].fields.introImageMobile.fields.file.url"
-          >
+          <section class="mapas">
+            <img
+              class="map-mobile"
+              :src="intro[0].fields.introImageMobile.fields.file.url"
+            />
 
-          <img
-            class="map-desktop"
-            :src="intro[0].fields.introImage.fields.file.url"
-          />
-        </section>
+            <img
+              class="map-desktop"
+              :src="intro[0].fields.introImage.fields.file.url"
+            />
+          </section>
         </nuxt-link>
       </v-content>
 
-
-<!--      <v-content>
+      <!--      <v-content>
         <v-row
           justify="center"
           class="content init"
@@ -61,7 +61,6 @@
           </section>
         </v-row>
       </v-content>-->
-
     </v-container>
 
     <v-container :class="$style['about-container']">
@@ -132,7 +131,6 @@ export default {
 </script>
 
 <style lang="scss">
-
 .mapas {
   position: relative;
   width: 100vw;
@@ -141,13 +139,13 @@ export default {
   @include media(ML) {
     width: 80vw;
   }
-.map-mobile {
+  .map-mobile {
     width: 100vw;
     margin-bottom: 30px;
-  padding: 0 10px;
-  @include media(ML) {
-    display: none;
-  }
+    padding: 0 10px;
+    @include media(ML) {
+      display: none;
+    }
   }
   .map-desktop {
     border: none;
@@ -243,7 +241,7 @@ export default {
 .contentpiece > section {
   max-width: 600px;
   @include media(ML) {
-  width: 600px;
+    width: 600px;
     background-color: white;
     border: 5px solid var(--pr);
     font-family: "Consolas", Helvetica;

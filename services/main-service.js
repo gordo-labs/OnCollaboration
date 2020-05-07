@@ -17,6 +17,10 @@ export default {
       order: '-sys.createdAt'
     });
   },
+  getEntry(payload) {
+    console.log(payload)
+    return client.getEntry(payload);
+  },
   getPostId_Data(slug) {
     return HTTP.get(`wp/v2/posts?slug=${slug}&_embed`);
   },
