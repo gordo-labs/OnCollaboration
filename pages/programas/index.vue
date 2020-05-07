@@ -1,5 +1,6 @@
 <template>
   <v-container :class="$style['base']" class="tabs">
+
     <transition name="fade">
       <div
         :class="$style['tabs-line_mobile']"
@@ -67,7 +68,7 @@
 
             <!--            <nuxt-link :to="'/' + 'programas'">
               <v-card
-                v-if="item.fields.recorded"
+                v-if="item.fields.recorded"x
                 class="ma-3 pa-3"
                 :class="$style['tab-cta']"
                 flat
