@@ -80,7 +80,7 @@ export const mutations = {
 };
 
 export const actions = {
-  async getEntriesAction({ commit }, payload) {
+  async getProgramasAction({ commit }, payload) {
     const posts = await mainService.getEntriesByType(payload);
     const data = {
       postType: payload,
@@ -88,6 +88,14 @@ export const actions = {
     };
     commit("setStateDataByType", data);
     commit("setSelectedProgram", posts.items[0]);
+  },
+  async getEntriesAction({ commit }, payload) {
+    const posts = await mainService.getEntriesByType(payload);
+    const data = {
+      postType: payload,
+      data: posts.items
+    };
+    commit("setStateDataByType", data);
   },
   async getEntry({ commit }, payload) {
     const post = await mainService.getEntry(payload);

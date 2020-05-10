@@ -46,12 +46,10 @@
 -->
 
     <v-tabs-items v-model="active_tab" class="mt-4">
-
       <v-content
         v-if="item"
         :class="{ [$style.isRecorded]: item.fields.recorded }"
       >
-        hola
         <!--        <div v-if="item.fields.programa" v-html="item.fields.programa.content[1].content"></div>-->
 
         <v-tab-item :key="item.fields.title" class="mx-1 my-3">
@@ -59,6 +57,7 @@
             <h1>{{ item.fields.title }}</h1>
             <h2>{{ item.fields.subTitle }}</h2>
           </v-content>
+          <NuxtChild></NuxtChild>
 
           <v-content v-if="!item.fields.podcastsRef > 0">
             <div :class="$style.upperinfo" class="mb-3">
@@ -95,7 +94,12 @@
               :class="[$style.podcastContainer, $style['tab-content']]"
               class="mt-4"
             >
-              <a v-if="podcast.fields.ivooxUrl" class="ivoox-link" :href="podcast.fields.ivooxUrl" target="_blank">
+              <a
+                v-if="podcast.fields.ivooxUrl"
+                class="ivoox-link"
+                :href="podcast.fields.ivooxUrl"
+                target="_blank"
+              >
                 <p>Abrir en Ivoox</p>
               </a>
               <v-card flat color="transparent">
@@ -110,7 +114,6 @@
           </v-content>
         </v-tab-item>
       </v-content>
-
     </v-tabs-items>
   </v-container>
 </template>
@@ -162,7 +165,7 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch("getEntriesAction", "programa");
+    this.$store.dispatch("getProgramasAction", "programa");
     this.$store.commit("setTitle", "PROGRAMAS");
     this.$store.commit("setHeader", true);
     console.log("route", this.$route.name);

@@ -1,10 +1,12 @@
 <template>
-      <v-content
+  <div>
+    slug
+<!--      <v-content
         v-if="item"
         :class="{ [$style.isRecorded]: item.fields.recorded }"
       >
-        hola
-        <!--        <div v-if="item.fields.programa" v-html="item.fields.programa.content[1].content"></div>-->
+        slug
+        &lt;!&ndash;        <div v-if="item.fields.programa" v-html="item.fields.programa.content[1].content"></div>&ndash;&gt;
 
         <v-tab-item :key="item.fields.title" class="mx-1 my-3">
           <v-content class="mb-5" :class="$style.programTitle">
@@ -61,7 +63,9 @@
             </v-content>
           </v-content>
         </v-tab-item>
-      </v-content>
+      </v-content>-->
+
+  </div>
 </template>
 
 <script>
@@ -83,7 +87,7 @@
                     {
                         hid: "description",
                         name: "Programas",
-                        content: "Programas | " + this.item.fields.id
+                        content: "Programas | "
                     }
                 ],
                 link: [
@@ -114,9 +118,9 @@
             activeTab() {
                 return this.$store.state.podcastTab;
             },
-            item() {
-                return this.$store.state.selectedPrograma;
-            }
+            // item() {
+            //     return this.$store.state.selectedPrograma;
+            // }
         },
       beforeCreate() {
       },
