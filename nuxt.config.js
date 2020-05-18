@@ -137,7 +137,6 @@ export default {
       }
     ],
     "@nuxtjs/style-resources",
-    "@nuxtjs/moment"
   ],
 
   /*
