@@ -2,9 +2,9 @@ import {
   HTTP
 } from "./http-common";
 
-import {createClient} from '~/plugins/contentful.js';
+import {createClient} from '../plugins/contentful';
 
-const client = createClient();
+export const client = createClient();
 
 export default {
   getData() {

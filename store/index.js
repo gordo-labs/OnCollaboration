@@ -87,7 +87,7 @@ export const actions = {
       data: posts.items
     };
     commit("setStateDataByType", data);
-    commit("setSelectedProgram", posts.items[0]);
+    // commit("setSelectedProgram", posts.items[0]);
   },
   async getEntriesAction({ commit }, payload) {
     const posts = await mainService.getEntriesByType(payload);

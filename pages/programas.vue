@@ -20,7 +20,7 @@
       <v-tab
         v-if="item"
         v-for="item in posts"
-        :key="item.fields.title"
+        :key="item.sys.id"
         :class="$style['tab-style']"
         @click="sendTab(item.fields.title)"
         :to="{ path: '/programas/' + item.sys.id, params: item }"
@@ -45,19 +45,21 @@
     </transition>
 -->
 
+    <NuxtChild :key="$route.params.slug"></NuxtChild>
+
+<!--
     <v-tabs-items v-model="active_tab" class="mt-4">
       <v-content
         v-if="item"
         :class="{ [$style.isRecorded]: item.fields.recorded }"
       >
-        <!--        <div v-if="item.fields.programa" v-html="item.fields.programa.content[1].content"></div>-->
+        &lt;!&ndash;        <div v-if="item.fields.programa" v-html="item.fields.programa.content[1].content"></div>&ndash;&gt;
 
         <v-tab-item :key="item.fields.title" class="mx-1 my-3">
           <v-content class="mb-5" :class="$style.programTitle">
             <h1>{{ item.fields.title }}</h1>
             <h2>{{ item.fields.subTitle }}</h2>
           </v-content>
-          <NuxtChild></NuxtChild>
 
           <v-content v-if="!item.fields.podcastsRef > 0">
             <div :class="$style.upperinfo" class="mb-3">
@@ -115,6 +117,8 @@
         </v-tab-item>
       </v-content>
     </v-tabs-items>
+-->
+
   </v-container>
 </template>
 
@@ -123,6 +127,12 @@ import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
 import TitleImage from "../components/titleImage";
 
 export default {
+/*  middleware({ store, redirect }) {
+    // If the user is not authenticated
+    if (store.state.programa > 0) {
+      return redirect("/programas/" + store.state.programa[0].sys.id);
+    }
+  },*/
   name: "program",
   components: { TitleImage },
   head() {

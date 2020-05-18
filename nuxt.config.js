@@ -1,5 +1,6 @@
 import VuetifyLoaderPlugin from "vuetify-loader/lib/plugin";
 import pkg from "./package";
+import mainService from "./services/main-service";
 const contentfulConfig = require("./.contentful.json");
 
 export default {
@@ -69,6 +70,7 @@ export default {
       }
     ]
   },
+  // middleware: ['auth', 'stats']
 
   /*
    ** Customize the progress-bar color
@@ -158,33 +160,39 @@ export default {
     extend(config, ctx) {}
   },
   generate: {
-    routes: [
-      '/programas/ON01.',
-      '/programas/ON02.',
-      '/programas/ON03.',
-      '/programas/ON04.',
-      '/programas/ON05.',
-    ]
-/*    routes() {
-      return Promise.all([
-        // get all blog posts
-        client.getEntries({
-          content_type: env.CTF_BLOG_POST_TYPE_ID
-        }),
-        // get the blog post content type
-        client
-          .getSpace(env.CTF_SPACE_ID)
-          .then(space => space.getContentType(env.CTF_BLOG_POST_TYPE_ID))
-      ]).then(([entries, postType]) => {
-        return [
-          // map entries to URLs
-          ...entries.items.map(entry => `/blog/${entry.fields.slug}`),
-          // map all possible tags to URLs
-          ...postType.fields
-            .find(field => field.id === "tags")
-            .items.validations[0].in.map(tag => `/tags/${tag}`)
-        ];
+    // routes() {
+    //   return Promise.all([
+    //     // get all blog posts
+    //     client.getEntries({
+    //       content_type: env.CTF_BLOG_POST_TYPE_ID
+    //     }),
+    //     // get the blog post content type
+    //     client
+    //       .getSpace(env.CTF_SPACE_ID)
+    //       .then(space => space.getContentType(env.CTF_BLOG_POST_TYPE_ID))
+    //   ]).then(([entries, postType]) => {
+    //     return [
+    //       // map entries to URLs
+    //       ...entries.items.map(entry => `/blog/${entry.fields.slug}`),
+    //       // map all possible tags to URLs
+    //       ...postType.fields
+    //         .find(field => field.id === "tags")
+    //         .items.validations[0].in.map(tag => `/tags/${tag}`)
+    //     ];
+    //   });
+    // }
+    routes: async () => {
+      let routes = [];
+      const programas = await mainService.getEntriesByType('programa');
+      const podcasts = await mainService.getEntriesByType('programa');
+      console.log(programas,podcasts);
+      programas.items.map(el=>{
+        routes.push('/programas/' + el.sys.id);
       });
-    }*/
+      podcasts.items.map(el=>{
+        routes.push('/podcast/' + el.sys.id);
+      });
+      return routes;
+    }
   }
 };

@@ -3,8 +3,10 @@ const contentful = require('contentful');
 // these will be set via `env` property in nuxt.config.js
 
 const config = {
-  space: process.env.CTF_SPACE_ID,
-  accessToken: process.env.CTF_CDA_ACCESS_TOKEN,
+/*  space: process.env.CTF_SPACE_ID,
+  accessToken: process.env.CTF_CDA_ACCESS_TOKEN,*/
+  space: '2u05j96cus0b',
+  accessToken: "BE-PgdzqvA4T_53plwtYWsiZ2kVXkGePhCsRrBiOBBI",
   accessPreviewToken: process.env.CTF_CDA_PREVIEW_ACCESS_TOKEN
 };
 

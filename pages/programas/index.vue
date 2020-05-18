@@ -1,73 +1,6 @@
 <template>
   <div >
     Index
-<!--    <v-content
-      v-if="item"
-      :class="{ [$style.isRecorded]: item.fields.recorded }"
-    >
-      &lt;!&ndash;        <div v-if="item.fields.programa" v-html="item.fields.programa.content[1].content"></div>&ndash;&gt;
-
-      <v-tab-item :key="item.fields.title" class="mx-1 my-3">
-        <v-content class="mb-5" :class="$style.programTitle">
-          <h1>{{ item.fields.title }}</h1>
-          <h2>{{ item.fields.subTitle }}</h2>
-        </v-content>
-
-        <v-content v-if="!item.fields.podcastsRef > 0">
-          <div :class="$style.upperinfo" class="mb-3">
-            <v-card-text :class="$style['subtitle']">
-              <p :class="$style.title">Proximamente</p>
-            </v-card-text>
-          </div>
-        </v-content>
-
-        <v-content v-for="podcast in item.fields.podcastsRef" class="mt-5">
-          <div :class="$style.upperinfo" class="mb-3">
-            <img
-              v-if="podcast.fields.icono"
-              :src="podcast.fields.icono.fields.file.url"
-            />
-            <v-card-text :class="$style['subtitle']">
-              <p :class="$style.title">{{ podcast.fields.title }}</p>
-              <p>{{ podcast.fields.subtitle }}</p>
-            </v-card-text>
-            <audio
-              v-if="podcast.fields.audio"
-              :id="'player' + podcast.fields.id"
-              controls
-            >
-              {{ createPlyr(podcast.fields.id) }}
-              <source
-                :src="podcast.fields.audio[0].fields.file.url"
-                type="audio/mp3"
-              />
-            </audio>
-          </div>
-
-          <v-content
-            :class="[$style.podcastContainer, $style['tab-content']]"
-            class="mt-4"
-          >
-            <a
-              v-if="podcast.fields.ivooxUrl"
-              class="ivoox-link"
-              :href="podcast.fields.ivooxUrl"
-              target="_blank"
-            >
-              <p>Abrir en Ivoox</p>
-            </a>
-            <v-card flat color="transparent">
-              <v-card-text
-                v-if="podcast.fields.content"
-                v-html="documentToHtmlString(podcast.fields.content)"
-                :class="[$style['tab-content-inner']]"
-              >
-              </v-card-text>
-            </v-card>
-          </v-content>
-        </v-content>
-      </v-tab-item>
-    </v-content>-->
   </div>
 </template>
 
@@ -126,6 +59,8 @@ export default {
   },
   beforeCreate() {},
   created() {
+    this.$store.commit("setTitle", "PROGRAMAS");
+    this.$store.commit("setHeader", true);
     if (this.$store.state.programa.length > 0) {
       if (this.$router.history.current.params.slug) {
         this.$store.commit(
