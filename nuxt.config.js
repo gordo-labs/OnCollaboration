@@ -103,7 +103,6 @@ export default {
   plugins: [
     "@/plugins/vuetify",
     "~/plugins/filters.js",
-    "~/plugins/moment.js",
     "~/plugins/vue-audio-visual.js",
     "~/plugins/axios",
     "~/plugins/mailchimp",
@@ -168,9 +167,6 @@ export default {
     // }
 
   },
-  buildModules: [
-    ['@nuxtjs/moment', { /* module options */ }]
-  ],
   generate: {
     // routes() {
     //   return Promise.all([
