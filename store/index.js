@@ -110,6 +110,7 @@ export const actions = {
     const post = await mainService.getEntry(payload);
     // console.log('GET_ENTRY',post);
     commit("setSelectedProgram", post);
+    return post;
   },
   async getPostId_A({ commit }, payload) {
     const post = await mainService.getPostId_Data(payload);

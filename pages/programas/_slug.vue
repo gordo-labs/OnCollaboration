@@ -82,32 +82,38 @@
         name: "podcast",
         // components: { WaveAudio, TitleImage },
         // mixins: [mixinDetictingMobile],
+      head() {
+        // const title = this.item ? this.item.fields.title : '';
+        return {
+          title: 'OnCollaboration | Programas',
+          // title: this.item.fields.title + ' | ' + this.item.fields.subtitle,
+          meta: [
+            // hid is used as unique identifier. Do not use `vmid` for it as it will not work
+            {
+              hid: "description",
+              name: "Programas",
+              content: "Programas | " + this.title
+            }
+          ],
+          link: [
+            {
+              rel: "stylesheet",
+              href: "https://cdn.plyr.io/3.5.6/plyr.css"
+            }
+          ]
+        };
+      },
         asyncData ({ params, store }) {
           store.dispatch("getEntry", params.slug)
             .then((res) => {
-              return;
+              console.log('RES',res);
+              return {
+                title: res.fields.title,
+                item: res
+              };
             })
         },
-        head() {
-          const title = this.item ? this.item.fields.title : null;
-            return {
-                title: "Programas | " + title,
-                meta: [
-                    // hid is used as unique identifier. Do not use `vmid` for it as it will not work
-                    {
-                        hid: "description",
-                        name: "Programas",
-                        content: "Programas | " + title
-                    }
-                ],
-                link: [
-                    {
-                        rel: "stylesheet",
-                        href: "https://cdn.plyr.io/3.5.6/plyr.css"
-                    }
-                ]
-            };
-        },
+
 
         data: () => ({
             tab: null,
@@ -116,7 +122,7 @@
             isRadioLineShown: null,
             programa: null,
             playpause: "play",
-            podcastsState: []
+            podcastsState: [],
         }),
         computed: {
             posts() {
