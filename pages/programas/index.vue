@@ -1,6 +1,6 @@
 <template>
   <div >
-    Index
+    Index <span v-if="this.item">{{this.item.fields.title}}</span>
   </div>
 </template>
 
@@ -59,26 +59,17 @@ export default {
   },
   beforeCreate() {},
   created() {
+    console.log('INDEX PROGRAMA',this.$router.history.current.params.slug);
+    console.log('INDEX PROGRAMAS => ',this.posts);
+    this.$store.dispatch("getEntry", this.$router.history.current.params.slug);
+    // }
     this.$store.commit("setTitle", "PROGRAMAS");
     this.$store.commit("setHeader", true);
-    if (this.$store.state.programa.length > 0) {
-      if (this.$router.history.current.params.slug) {
-        this.$store.commit(
-          "findSelectedProgram",
-          this.$router.history.current.params.slug
-        );
-      } else {
-      }
-    } else {
-      this.$store.dispatch("getProgramasAction", "programa");
-      // this.$store.dispatch(
-      //   "getEntry",
-      //   this.$router.history.current.params.slug
-      // );
-    }
-    this.$store.commit("setTitle", "PODCASTS");
-    this.$store.commit("setHeader", false);
     // console.log(this.item);
+
+    if (!this.$router.history.current.params.slug && this.posts.length === 0) {
+      this.$store.dispatch("getProgramasInitialAction", "programa");
+    }
   },
   mounted() {
     /*            let slider = document.getElementsByClassName("v-tabs__slider-wrapper");

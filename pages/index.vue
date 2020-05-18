@@ -103,7 +103,7 @@ export default {
   },
   created() {
     this.$store.dispatch("getEntriesAction", "intro");
-    this.$store.dispatch("getEntriesAction", "programa");
+    // this.$store.dispatch("getEntriesAction", "programa");
     this.$store.commit("setTitle", null);
     this.$store.commit("setHeader", false);
   },

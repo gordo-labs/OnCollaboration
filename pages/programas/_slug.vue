@@ -62,15 +62,9 @@
 
       },
       created() {
-          // if (this.$store.state.programa.length > 0) {
-            // this.$store.commit("findSelectedProgram", this.$router.history.current.params.slug);
-          // } else {
-            // this.$store.dispatch("getEntriesAction", "programa");
             this.$store.dispatch("getEntry", this.$router.history.current.params.slug);
-          // }
             this.$store.commit("setTitle", "PROGRAMAS");
             this.$store.commit("setHeader", true);
-            // console.log(this.item);
         },
         mounted() {
 /*            let slider = document.getElementsByClassName("v-tabs__slider-wrapper");
