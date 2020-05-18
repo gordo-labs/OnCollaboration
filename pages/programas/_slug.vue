@@ -74,10 +74,6 @@
 <script>
     import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
 
-    // import TitleImage from "../../components/titleImage";
-    // import WaveAudio from "../../components/wave-audio";
-    // import { mixinDetictingMobile } from "../../plugins/mixins";
-
     export default {
         name: "podcast",
         // components: { TitleImage },
@@ -143,24 +139,11 @@
 
       },
       created() {
-          console.log(this.$router.history.current.params.slug);
             this.$store.dispatch("getEntry", this.$router.history.current.params.slug);
             this.$store.commit("setTitle", "PROGRAMAS");
             this.$store.commit("setHeader", true);
         },
         mounted() {
-/*            let slider = document.getElementsByClassName("v-tabs__slider-wrapper");
-            slider[0].appendChild(this.$refs.selector);
-
-            setTimeout(() => {
-                this.isRadioLineShown = true;
-                this.programa = this.posts.find(el => {
-                    if ((el.fields.title = this.$router.params.slug)) {
-                        return true;
-                    }
-                });
-                this.tab = this.programa.id;
-            }, 1000);*/
         },
         methods: {
             createPlyr(id) {
@@ -181,31 +164,6 @@
             podcastState(podcast) {
                 return this["podcastState" + podcast.fields.id];
             },
-            logPodcast(podcast) {
-                console.log("PODCASTS = >", podcast);
-            },
-            createWave(id, url) {
-                console.log(id, url);
-                this.$nextTick(() => {
-                    this.waves[id] = this.$wavesurfer.create({
-                        container: "#" + "wave" + id,
-                        waveColor: "#D13B54",
-                        progressColor: "#4c4885"
-                    });
-                    this.waves[id].load(url);
-                });
-            },
-            wavePlay(id) {
-                this.waves[id].playPause();
-                if (this.playpause === "play") {
-                    this.playpause = "pause";
-                } else {
-                    this.playpause = "play";
-                }
-            },
-            waveStop(id) {
-                this.waves[id].stop();
-            }
         }
     };
 </script>

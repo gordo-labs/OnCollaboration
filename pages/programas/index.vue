@@ -151,18 +151,6 @@ export default {
     }
   },
   mounted() {
-    /*            let slider = document.getElementsByClassName("v-tabs__slider-wrapper");
-                  slider[0].appendChild(this.$refs.selector);
-
-                  setTimeout(() => {
-                      this.isRadioLineShown = true;
-                      this.programa = this.posts.find(el => {
-                          if ((el.fields.title = this.$router.params.slug)) {
-                              return true;
-                          }
-                      });
-                      this.tab = this.programa.id;
-                  }, 1000);*/
   },
   methods: {
     createPlyr(id) {
@@ -185,28 +173,6 @@ export default {
     },
     logPodcast(podcast) {
       console.log("PODCASTS = >", podcast);
-    },
-    createWave(id, url) {
-      console.log(id, url);
-      this.$nextTick(() => {
-        this.waves[id] = this.$wavesurfer.create({
-          container: "#" + "wave" + id,
-          waveColor: "#D13B54",
-          progressColor: "#4c4885"
-        });
-        this.waves[id].load(url);
-      });
-    },
-    wavePlay(id) {
-      this.waves[id].playPause();
-      if (this.playpause === "play") {
-        this.playpause = "pause";
-      } else {
-        this.playpause = "play";
-      }
-    },
-    waveStop(id) {
-      this.waves[id].stop();
     }
   }
 };

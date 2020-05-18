@@ -9,7 +9,7 @@
       :class="$style['event-container']"
     >
       <v-card-text :class="$style['event-content-inner']">
-        {{ event.fields.eventDate | moment("MM Do YYYY") }}
+        {{ buildDate(event.fields.eventDate) }}
       </v-card-text>
       <v-content :class="$style['event-content']">
         <v-img
@@ -86,6 +86,22 @@ export default {
     },
     openImageGallery(imageUrl) {
       this.images.push({ src: imageUrl });
+    },
+    buildDate(dateIso) {
+      let date = new Date(dateIso);
+      let year = date.getFullYear();
+      let month = date.getMonth()+1;
+      let dt = date.getDate();
+
+      if (dt < 10) {
+        dt = '0' + dt;
+      }
+      if (month < 10) {
+        month = '0' + month;
+      }
+
+      console.log(year+'-' + month + '-'+dt);
+      return (dt + ' - ' + month + ' - ' + year);
     }
   }
 };

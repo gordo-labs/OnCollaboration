@@ -147,26 +147,30 @@ export default {
 
   mode: "spa",
   build: {
-    transpile: ["vuetify/lib"],
+    transpile: ["vuetify/lib", "contentful"],
     plugins: [new VuetifyLoaderPlugin()],
     loaders: {
       stylus: {
         import: ["~assets/style/variables.styl"]
       }
     },
+
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) {},
-    terser: {
-      terserOptions: {
-        compress: {
-          drop_console: true
-        }
-      }
-    }
-  },
+    // extend(config, ctx) {},
+    // terser: {
+    //   terserOptions: {
+    //     compress: {
+    //       drop_console: true
+    //     }
+    //   }
+    // }
 
+  },
+  buildModules: [
+    ['@nuxtjs/moment', { /* module options */ }]
+  ],
   generate: {
     // routes() {
     //   return Promise.all([
@@ -192,7 +196,7 @@ export default {
     routes: async () => {
       let routes = [];
       const programas = await mainService.getEntriesByType('programa');
-      const podcasts = await mainService.getEntriesByType('programa');
+      const podcasts = await mainService.getEntriesByType('podcast');
       console.log(programas,podcasts);
       programas.items.map(el=>{
         routes.push('/programas/' + el.sys.id);
