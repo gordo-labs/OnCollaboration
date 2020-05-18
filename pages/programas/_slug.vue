@@ -80,7 +80,7 @@
 
     export default {
         name: "podcast",
-        // components: { WaveAudio, TitleImage },
+        // components: { TitleImage },
         // mixins: [mixinDetictingMobile],
       head() {
         // const title = this.item ? this.item.fields.title : '';
@@ -92,7 +92,7 @@
             {
               hid: "description",
               name: "Programas",
-              content: "Programas | " + this.title
+              content: "Programas"
             }
           ],
           link: [
@@ -103,17 +103,17 @@
           ]
         };
       },
-        asyncData ({ params, store }) {
-          store.dispatch("getEntry", params.slug)
-            .then((res) => {
-              console.log('RES',res);
-              return {
-                title: res.fields.title,
-                item: res,
-                isItemFilled: true
-              };
-            })
-        },
+        // asyncData ({ params, store }) {
+        //   store.dispatch("getEntry", params.slug)
+        //     .then((res) => {
+        //       console.log('RES',res);
+        //       return {
+        //         title: res.fields.title,
+        //         item: res,
+        //         isItemFilled: true
+        //       };
+        //     })
+        // },
         data: () => ({
             tab: null,
             documentToHtmlString: documentToHtmlString,
@@ -143,6 +143,7 @@
 
       },
       created() {
+          console.log(this.$router.history.current.params.slug);
             this.$store.dispatch("getEntry", this.$router.history.current.params.slug);
             this.$store.commit("setTitle", "PROGRAMAS");
             this.$store.commit("setHeader", true);

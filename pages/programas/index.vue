@@ -83,6 +83,17 @@ export default {
   name: "podcast",
   components: { WaveAudio, TitleImage },
   mixins: [mixinDetictingMobile],
+  asyncData ({ params, store }) {
+    store.dispatch("getEntry", params.slug)
+      .then((res) => {
+        console.log('RES',res);
+        return {
+          title: res.fields.title,
+          item: res,
+          isItemFilled: true
+        };
+      })
+  },
   head() {
     return {
       title: "Programas",
