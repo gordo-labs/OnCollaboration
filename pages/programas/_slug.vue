@@ -108,6 +108,7 @@
                 ]
             };
         },
+
         data: () => ({
             tab: null,
             documentToHtmlString: documentToHtmlString,
