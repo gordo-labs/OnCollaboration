@@ -1,7 +1,7 @@
 <template>
   <!--    <v-tabs-items v-model="active_tab" class="mt-4">-->
   <v-content
-    v-if="item"
+    v-if="!!item"
     :class="{ [$style.isRecorded]: item.fields.recorded }"
     class="mt-5"
   >
@@ -85,7 +85,7 @@
       head() {
         // const title = this.item ? this.item.fields.title : '';
         return {
-          title: 'OnCollaboration | Programas',
+          title: 'On Collaboration | Programas',
           // title: this.item.fields.title + ' | ' + this.item.fields.subtitle,
           meta: [
             // hid is used as unique identifier. Do not use `vmid` for it as it will not work
@@ -109,12 +109,11 @@
               console.log('RES',res);
               return {
                 title: res.fields.title,
-                item: res
+                item: res,
+                isItemFilled: true
               };
             })
         },
-
-
         data: () => ({
             tab: null,
             documentToHtmlString: documentToHtmlString,
@@ -122,6 +121,7 @@
             isRadioLineShown: null,
             programa: null,
             playpause: "play",
+            isItemFilled: false,
             podcastsState: [],
         }),
         computed: {
