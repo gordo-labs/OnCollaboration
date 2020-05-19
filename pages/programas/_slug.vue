@@ -76,8 +76,6 @@
 
     export default {
         name: "podcast",
-        // components: { TitleImage },
-        // mixins: [mixinDetictingMobile],
       head() {
         // const title = this.item ? this.item.fields.title : '';
         return {
@@ -99,17 +97,6 @@
           ]
         };
       },
-        // asyncData ({ params, store }) {
-        //   store.dispatch("getEntry", params.slug)
-        //     .then((res) => {
-        //       console.log('RES',res);
-        //       return {
-        //         title: res.fields.title,
-        //         item: res,
-        //         isItemFilled: true
-        //       };
-        //     })
-        // },
         data: () => ({
             tab: null,
             documentToHtmlString: documentToHtmlString,
@@ -132,13 +119,11 @@
                 return this.$store.state.podcastTab;
             },
             item() {
+              console.log('COMPUTED ITEM');
                 return this.$store.state.selectedPrograma;
             }
         },
-      beforeCreate() {
-
-      },
-      created() {
+        created() {
             this.$store.dispatch("getEntry", this.$router.history.current.params.slug);
             this.$store.commit("setTitle", "PROGRAMAS");
             this.$store.commit("setHeader", true);

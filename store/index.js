@@ -107,7 +107,7 @@ export const actions = {
   },
   async getEntry({ commit }, payload) {
     const post = await mainService.getEntry(payload);
-    // console.log('GET_ENTRY',post);
+    console.log('GET_ENTRY',post);
     commit("setSelectedProgram", post);
     // return post;
   },
