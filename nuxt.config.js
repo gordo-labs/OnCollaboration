@@ -193,11 +193,12 @@ export default {
       const programas = await mainService.getEntriesByType('programa');
       const podcasts = await mainService.getEntriesByType('podcast');
       console.log(programas,podcasts);
+
       programas.items.map(el=>{
-        routes.push('/programas/' + el.sys.id);
+        routes.push('/programas/' + el.sys.id.toLowerCase()); // NETLIFY ONLY WORKS WITH LOWERCASEd URLS
       });
       podcasts.items.map(el=>{
-        routes.push('/podcast/' + el.sys.id);
+        routes.push('/podcast/' + el.sys.id.toLowerCase()); // NETLIFY ONLY WORKS WITH LOWERCASE URLS
       });
       return routes;
     }

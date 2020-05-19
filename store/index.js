@@ -86,7 +86,9 @@ export const mutations = {
   },
   findSelectedProgram(state, payload) {
     state.selectedPrograma = state.programa.find(el=>{
-      if (el.sys.id === payload) {
+
+      // NETLIFY ONLY WORKS WITH LOWERCASE URLS
+      if (el.sys.id.toLowerCase() === payload) {
         console.log("FOUND SELECTED_PROGRAMA => ", payload);
         return el;
       }
@@ -115,10 +117,9 @@ export const actions = {
     };
     commit("setPrograma", data);
     let programa;
+    // NETLIFY ONLY WORKS WITH LOWERCASE URLS
     posts.items.find(el=> {
-      console.log(el.sys.id === payload);
-      console.log(el.sys.id, payload);
-      if (el.sys.id === payload) {
+      if (el.sys.id.toLowerCase() === payload) {
         programa = el;
       }
     })
@@ -145,7 +146,6 @@ export const actions = {
     const post = await mainService.getEntry(payload);
     console.log('GET_ENTRY',post);
     commit("setSelectedProgram", post);
-    // return post;
   },
   async getPostId_A({ commit }, payload) {
     const post = await mainService.getPostId_Data(payload);

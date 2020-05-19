@@ -149,6 +149,7 @@ export default {
     if (!this.$router.history.current.params.slug && this.posts.length === 0) {
       this.$store.dispatch("getProgramasInitialAction", "programa");
     }
+
   },
   mounted() {
   },

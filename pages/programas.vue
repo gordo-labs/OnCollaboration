@@ -23,7 +23,7 @@
         :key="item.sys.id"
         :class="$style['tab-style']"
         @click="sendTab(item.fields.title)"
-        :to="{ path: '/programas/' + item.sys.id, params: item }"
+        :to="{ path: '/programas/' + item.sys.id.toLowerCase(), params: item }"
         nuxt
       >
         <div :class="$style['tab-line']"></div>
