@@ -117,6 +117,7 @@ export const actions = {
     let programa;
     posts.items.find(el=> {
       console.log(el.sys.id === payload);
+      console.log(el.sys.i, payload);
       if (el.sys.id === payload) {
         programa = el;
       }
