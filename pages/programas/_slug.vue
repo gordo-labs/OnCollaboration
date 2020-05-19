@@ -1,7 +1,7 @@
 <template>
   <!--    <v-tabs-items v-model="active_tab" class="mt-4">-->
   <v-content
-    v-if="!!item"
+    v-if="posts.length > 0 && item"
     :class="{ [$style.isRecorded]: item.fields.recorded }"
     class="mt-5"
   >
@@ -109,8 +109,7 @@
         }),
         computed: {
             posts() {
-                let programas = this.$store.state.programa;
-                return programas;
+                return this.$store.state.programa;
             },
             title() {
                 return this.$store.state.title;
@@ -119,12 +118,15 @@
                 return this.$store.state.podcastTab;
             },
             item() {
-              console.log('COMPUTED ITEM');
                 return this.$store.state.selectedPrograma;
             }
         },
         created() {
-            this.$store.dispatch("getEntry", this.$router.history.current.params.slug);
+          if (this.$store.state.programa.length > 0 ) {
+            this.$store.commit("findSelectedProgram", this.$router.history.current.params.slug);
+          } else {
+            this.$store.dispatch("getProgramaByIdAction", this.$router.history.current.params.slug);
+          }
             this.$store.commit("setTitle", "PROGRAMAS");
             this.$store.commit("setHeader", true);
         },

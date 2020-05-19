@@ -7,6 +7,7 @@ export const state = () => ({
   intro: [],
   about: [],
   programa: [],
+  isProgramaLoaded: false,
   selectedPrograma: null,
   evento: [],
   opencol: [],
@@ -68,7 +69,8 @@ export const mutations = {
   },
   findSelectedProgram(state, payload) {
     state.selectedPrograma = state.programa.find(el=>{
-      if (el.fields.title === payload) {
+      if (el.sys.id === payload) {
+        console.log("FOUND SELECTED_PROGRAMA => ", payload);
         return el;
       }
     })
@@ -87,6 +89,20 @@ export const actions = {
       data: posts.items
     };
     commit("setStateDataByType", data);
+  },
+  async getProgramaByIdAction({ commit }, payload) {
+    const posts = await mainService.getEntriesByType('programa');
+    const data = {
+      postType: payload,
+      data: posts.items
+    };
+    commit("setStateDataByType", data);
+    const programa = posts.items.find(el=>{
+      if (el.sys.id === payload) {
+        return el;
+      }
+    })
+    commit("setSelectedProgram", programa);
   },
   async getProgramasInitialAction({ commit }, payload) {
     const posts = await mainService.getEntriesByType(payload);
