@@ -1,75 +1,74 @@
 <template>
+  <!--    <v-tabs-items v-model="active_tab" class="mt-4">-->
+  <v-content
+    v-if="item && posts.length > 0"
+    class="mt-5"
+    :class="{ [$style.isRecorded]: item.fields.recorded }"
+  >
+    <!--        <div v-if="item.fields.programa" v-html="item.fields.programa.content[1].content"></div>-->
 
-<!--    <v-tabs-items v-model="active_tab" class="mt-4">-->
+    <!--        <v-tab-item :key="item.fields.title" class="mx-1 my-3">-->
+    <v-content class="mb-5" :class="$style.programTitle">
+      <h1>{{ item.fields.title }}</h1>
+      <h2>{{ item.fields.subTitle }}</h2>
+    </v-content>
+
+    <v-content v-if="!item.fields.podcastsRef > 0">
+      <div :class="$style.upperinfo" class="mb-3">
+        <v-card-text :class="$style['subtitle']">
+          <p :class="$style.title">Proximamente</p>
+        </v-card-text>
+      </div>
+    </v-content>
+
+    <v-content v-for="podcast in item.fields.podcastsRef" class="mt-5">
+      <div :class="$style.upperinfo" class="mb-3">
+        <img
+          v-if="podcast.fields.icono"
+          :src="podcast.fields.icono.fields.file.url"
+        />
+        <v-card-text :class="$style['subtitle']">
+          <p :class="$style.title">{{ podcast.fields.title }}</p>
+          <p>{{ podcast.fields.subtitle }}</p>
+        </v-card-text>
+        <audio
+          v-if="podcast.fields.audio"
+          :id="'player' + podcast.fields.id"
+          controls
+        >
+          {{ createPlyr(podcast.fields.id) }}
+          <source
+            :src="podcast.fields.audio[0].fields.file.url"
+            type="audio/mp3"
+          />
+        </audio>
+      </div>
+
       <v-content
-        v-if="item"
-        class="mt-5"
-        :class="{ [$style.isRecorded]: item.fields.recorded }"
+        :class="[$style.podcastContainer, $style['tab-content']]"
+        class="mt-4"
       >
-        <!--        <div v-if="item.fields.programa" v-html="item.fields.programa.content[1].content"></div>-->
-
-<!--        <v-tab-item :key="item.fields.title" class="mx-1 my-3">-->
-          <v-content class="mb-5" :class="$style.programTitle">
-            <h1>{{ item.fields.title }}</h1>
-            <h2>{{ item.fields.subTitle }}</h2>
-          </v-content>
-
-          <v-content v-if="!item.fields.podcastsRef > 0">
-            <div :class="$style.upperinfo" class="mb-3">
-              <v-card-text :class="$style['subtitle']">
-                <p :class="$style.title">Proximamente</p>
-              </v-card-text>
-            </div>
-          </v-content>
-
-          <v-content v-for="podcast in item.fields.podcastsRef" class="mt-5">
-            <div :class="$style.upperinfo" class="mb-3">
-              <img
-                v-if="podcast.fields.icono"
-                :src="podcast.fields.icono.fields.file.url"
-              />
-              <v-card-text :class="$style['subtitle']">
-                <p :class="$style.title">{{ podcast.fields.title }}</p>
-                <p>{{ podcast.fields.subtitle }}</p>
-              </v-card-text>
-              <audio
-                v-if="podcast.fields.audio"
-                :id="'player' + podcast.fields.id"
-                controls
-              >
-                {{ createPlyr(podcast.fields.id) }}
-                <source
-                  :src="podcast.fields.audio[0].fields.file.url"
-                  type="audio/mp3"
-                />
-              </audio>
-            </div>
-
-            <v-content
-              :class="[$style.podcastContainer, $style['tab-content']]"
-              class="mt-4"
-            >
-              <a
-                v-if="podcast.fields.ivooxUrl"
-                class="ivoox-link"
-                :href="podcast.fields.ivooxUrl"
-                target="_blank"
-              >
-                <p>Abrir en Ivoox</p>
-              </a>
-              <v-card flat color="transparent">
-                <v-card-text
-                  v-if="podcast.fields.content"
-                  v-html="documentToHtmlString(podcast.fields.content)"
-                  :class="[$style['tab-content-inner']]"
-                >
-                </v-card-text>
-              </v-card>
-            </v-content>
-          </v-content>
-<!--        </v-tab-item>-->
+        <a
+          v-if="podcast.fields.ivooxUrl"
+          class="ivoox-link"
+          :href="podcast.fields.ivooxUrl"
+          target="_blank"
+        >
+          <p>Abrir en Ivoox</p>
+        </a>
+        <v-card flat color="transparent">
+          <v-card-text
+            v-if="podcast.fields.content"
+            v-html="documentToHtmlString(podcast.fields.content)"
+            :class="[$style['tab-content-inner']]"
+          >
+          </v-card-text>
+        </v-card>
       </v-content>
-<!--    </v-tabs-items>-->
+    </v-content>
+    <!--        </v-tab-item>-->
+  </v-content>
+  <!--    </v-tabs-items>-->
 </template>
 
 <script>
@@ -83,20 +82,9 @@ export default {
   name: "podcast",
   components: { WaveAudio, TitleImage },
   mixins: [mixinDetictingMobile],
-  asyncData ({ params, store }) {
-    store.dispatch("getEntry", params.slug)
-      .then((res) => {
-        console.log('RES',res);
-        return {
-          title: res.fields.title,
-          item: res,
-          isItemFilled: true
-        };
-      })
-  },
   head() {
     return {
-      title: "Programas",
+      title: 'On Collaboration | Programas',
       meta: [
         // hid is used as unique identifier. Do not use `vmid` for it as it will not work
         {
@@ -138,21 +126,12 @@ export default {
   },
   beforeCreate() {},
   created() {
-    console.log('INDEX PROGRAMA',this.$router.history.current.params.slug);
-    console.log('INDEX PROGRAMAS => ',this.posts);
-    this.$store.dispatch("getEntry", this.$router.history.current.params.slug);
-    // }
     this.$store.commit("setTitle", "PROGRAMAS");
     this.$store.commit("setHeader", true);
     // console.log(this.item);
-
-    if (!this.$router.history.current.params.slug && this.posts.length === 0) {
-      this.$store.dispatch("getProgramasInitialAction", "programa");
-    }
-
+    this.$store.dispatch("getProgramasInitialAction", "programa");
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     createPlyr(id) {
       this.$nextTick(() => {
