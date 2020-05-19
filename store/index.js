@@ -40,6 +40,23 @@ export const mutations = {
     data.sort(compare);
     state[payload.postType] = data;
   },
+  setPrograma(state, payload) {
+    console.log("PROGRAMA_MUTATION => ", payload.data);
+    let data = payload.data;
+    let compare = (a, b) => {
+      if (a.fields.id < b.fields.id) return -1;
+      if (a.fields.id > b.fields.id) return 1;
+      return 0;
+    };
+    data.map((item) => {
+      // console.log(item);
+      if (item.fields.podcastsRef) {
+        item.fields.podcastsRef.sort(compare);
+      }
+    });
+    data.sort(compare);
+    state.programa = data;
+  },
   setPost(state, payload) {
     console.log("POST_MUTATION => ", payload);
     state.post = payload;
@@ -96,10 +113,12 @@ export const actions = {
       postType: payload,
       data: posts.items
     };
-    commit("setStateDataByType", data);
-    const programa = posts.items.find(el=>{
+    commit("setPrograma", data);
+    let programa;
+    posts.items.find(el=> {
+      console.log(el.sys.id === payload);
       if (el.sys.id === payload) {
-        return el;
+        programa = el;
       }
     })
     commit("setSelectedProgram", programa);
