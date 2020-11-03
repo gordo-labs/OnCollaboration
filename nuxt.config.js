@@ -138,7 +138,9 @@ export default {
     ],
     "@nuxtjs/style-resources",
   ],
-
+  googleAnalytics: {
+    id: 'UA-148177375-1' // Use as fallback if no runtime config is provided
+  },
   /*
    ** Build configuration
    */
