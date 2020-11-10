@@ -127,16 +127,10 @@ export default {
    ** Nuxt.js modules
    */
   modules: [
-    [
-      "@nuxtjs/google-analytics",
-      {
-        id: "UA-148177375-1",
-        autoTracking: {
-          screenview: true
-        }
-      }
-    ],
     "@nuxtjs/style-resources",
+  ],
+  buildModules: [
+    '@nuxtjs/google-analytics'
   ],
   googleAnalytics: {
     id: 'UA-148177375-1' // Use as fallback if no runtime config is provided
@@ -145,7 +139,7 @@ export default {
    ** Build configuration
    */
 
-  mode: "spa",
+  ssr: false,
   build: {
     transpile: ["vuetify/lib", "contentful"],
     plugins: [new VuetifyLoaderPlugin()],
